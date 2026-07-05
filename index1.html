@@ -1,0 +1,885 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>英語部屋 | 中学英語の土台</title>
+  <style>
+    :root {
+      --bg1: #fff8fb;
+      --bg2: #f4f2ff;
+      --card: rgba(255,255,255,0.9);
+      --line: #e7dcff;
+      --text: #3b3456;
+      --sub: #6f678c;
+      --main: #8c7cf6;
+      --main-dark: #6a58dc;
+      --accent: #ff9ec7;
+      --good: #dff7e6;
+      --good-text: #1f6c37;
+      --bad: #ffe6ea;
+      --bad-text: #9b3550;
+      --note: #fff8d8;
+      --shadow: 0 14px 40px rgba(120, 98, 196, 0.14);
+      --radius-xl: 26px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(255, 183, 219, 0.28), transparent 28%),
+        radial-gradient(circle at top left, rgba(147, 138, 255, 0.18), transparent 30%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(980px, calc(100vw - 28px));
+      margin: 0 auto;
+      padding: 20px 0 72px;
+    }
+
+    .hero {
+      background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(250,247,255,0.96));
+      border: 1px solid rgba(231, 220, 255, 0.95);
+      box-shadow: var(--shadow);
+      border-radius: 30px;
+      padding: 26px 20px 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, rgba(255, 158, 199, 0.3), transparent 68%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .kicker {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #f4efff;
+      color: var(--main-dark);
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 5vw, 2.65rem);
+      line-height: 1.2;
+    }
+    .lead {
+      margin: 12px 0 0;
+      color: var(--sub);
+      line-height: 1.85;
+      font-size: 0.98rem;
+    }
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--sub);
+      font-size: 0.9rem;
+      box-shadow: 0 6px 18px rgba(120, 98, 196, 0.06);
+    }
+
+    .nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 16px 0 0;
+    }
+    .nav a {
+      text-decoration: none;
+      color: var(--main-dark);
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px 10px;
+      text-align: center;
+      font-weight: 700;
+      box-shadow: 0 8px 20px rgba(120, 98, 196, 0.08);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(231,220,255,0.95);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 1.32rem;
+    }
+    .card .sub {
+      color: var(--sub);
+      line-height: 1.7;
+      margin: 0 0 14px;
+      font-size: 0.95rem;
+    }
+
+    .status {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0 0 14px;
+    }
+    .pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--sub);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .question-box {
+      padding: 16px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #fff, #faf7ff);
+      border: 1px solid var(--line);
+      margin-bottom: 14px;
+    }
+    .question-type {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #f5f2ff;
+      color: var(--main-dark);
+      font-size: 0.8rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .question-text {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      font-weight: 700;
+    }
+
+    .choices {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .choice {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font: inherit;
+      font-weight: 700;
+      text-align: left;
+      box-shadow: 0 8px 20px rgba(120, 98, 196, 0.06);
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    }
+    .choice:active { transform: scale(0.99); }
+    .choice:hover { border-color: #cab8ff; }
+    .choice.correct {
+      background: var(--good);
+      color: var(--good-text);
+      border-color: #9fd6af;
+    }
+    .choice.wrong {
+      background: var(--bad);
+      color: var(--bad-text);
+      border-color: #f1a5b6;
+    }
+    .choice.dim {
+      opacity: 0.72;
+    }
+    .choice small {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      line-height: 1.8;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .feedback.show { display: block; }
+    .feedback.good {
+      background: var(--good);
+      color: var(--good-text);
+      border: 1px solid #9fd6af;
+    }
+    .feedback.bad {
+      background: var(--bad);
+      color: var(--bad-text);
+      border: 1px solid #f1a5b6;
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .btn {
+      appearance: none;
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 16px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+    .btn:active { transform: scale(0.99); }
+    .btn-main {
+      background: linear-gradient(180deg, var(--main), var(--main-dark));
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(106, 88, 220, 0.22);
+    }
+    .btn-sub {
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--main-dark);
+    }
+    .btn-soft {
+      background: #fff5fb;
+      border: 1px solid #ffd3e7;
+      color: #b64f77;
+    }
+
+    .roadmap {
+      display: grid;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .lesson {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #fff, #fcfbff);
+      border-radius: 20px;
+      padding: 16px;
+    }
+    .lesson-head {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .lesson h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+    .lesson p {
+      margin: 8px 0 0;
+      color: var(--sub);
+      line-height: 1.75;
+      font-size: 0.94rem;
+    }
+    .example {
+      margin-top: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #f9f6ff;
+      border: 1px dashed #d8caff;
+      line-height: 1.75;
+      font-size: 0.92rem;
+    }
+    .check {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+      color: var(--main-dark);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .check input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--main-dark);
+    }
+
+    .meter {
+      display: grid;
+      gap: 12px;
+    }
+    .meter-box {
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #fff, #faf7ff);
+    }
+    .meter-label {
+      font-size: 0.88rem;
+      color: var(--sub);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .bar {
+      height: 12px;
+      border-radius: 999px;
+      background: #efeaff;
+      overflow: hidden;
+    }
+    .bar > span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--main));
+      transition: width 0.25s ease;
+    }
+    .meter-value {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      color: var(--main-dark);
+      font-weight: 800;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      resize: vertical;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      padding: 14px;
+      font: inherit;
+      line-height: 1.75;
+      background: #fff;
+      color: var(--text);
+    }
+    .save-note {
+      color: var(--sub);
+      font-size: 0.88rem;
+      margin-top: 8px;
+      min-height: 1.4em;
+    }
+
+    .review-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .review-item {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px 14px;
+    }
+    .review-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+    .empty {
+      padding: 14px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px dashed var(--line);
+      color: var(--sub);
+      line-height: 1.7;
+    }
+
+    footer {
+      margin-top: 20px;
+      color: var(--sub);
+      text-align: center;
+      font-size: 0.88rem;
+      line-height: 1.75;
+    }
+
+    @media (max-width: 820px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .nav {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="kicker">やさしく積み直す・中学英語</div>
+      <h1>英語部屋</h1>
+      <p class="lead">
+        むずかしいことを一気に詰め込むんじゃなくて、<br>
+        「これは誰？」「これはどうする？」みたいに、文の骨組みから少しずつ分かるようにする場所だよ。
+      </p>
+      <div class="chip-row">
+        <span class="chip">今日の一問で確認</span>
+        <span class="chip">関係ないひっかけなし</span>
+        <span class="chip">正解と解説がその場で見える</span>
+      </div>
+      <nav class="nav">
+        <a href="#daily">今日の一問</a>
+        <a href="#roadmap">学習の道</a>
+        <a href="#memo">わからないメモ</a>
+        <a href="#review">まちがえた問題</a>
+      </nav>
+    </section>
+
+    <div class="grid">
+      <main>
+        <section class="card" id="daily">
+          <h2>今日の一問</h2>
+          <p class="sub">問題はいつも「何を答える問題か」がはっきりするようにしてあるよ。</p>
+
+          <div class="status">
+            <div class="pill" id="questionCount">問題 1 / 1</div>
+            <div class="pill" id="correctState">まだ回答していないよ</div>
+          </div>
+
+          <div class="question-box">
+            <div class="question-type" id="questionType">語の役割</div>
+            <div class="question-text" id="questionText">読み込み中…</div>
+            <div class="choices" id="choices"></div>
+            <div class="feedback" id="feedback" aria-live="polite"></div>
+            <div class="row">
+              <button class="btn btn-main" id="nextQuestionBtn" type="button">次の問題へ</button>
+              <button class="btn btn-sub" id="retryQuestionBtn" type="button">この問題をもう一回</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="roadmap">
+          <h2>学習の道</h2>
+          <p class="sub">まずは文の骨組みから。ここが分かると、be動詞も一般動詞も入りやすくなるよ。</p>
+
+          <div class="roadmap">
+            <article class="lesson">
+              <div class="lesson-head">
+                <div>
+                  <h3>1. 英語の文は「誰が → どうする」</h3>
+                  <p>英語は、まず「誰・何」の話かが来て、そのあとに「どうする」が来ることが多いよ。</p>
+                </div>
+              </div>
+              <div class="example">
+                <strong>The fox runs.</strong><br>
+                The fox ＝ 狐（誰が）<br>
+                runs ＝ 走る（どうする）
+              </div>
+              <label class="check"><input type="checkbox" data-progress="lesson1"> ここを読んだ</label>
+            </article>
+
+            <article class="lesson">
+              <div class="lesson-head">
+                <div>
+                  <h3>2. be動詞は「です・いる・ある」</h3>
+                  <p><code>am / are / is</code> は、「〜です」「〜にいる」「〜がある」みたいな文を作る時に使うよ。</p>
+                </div>
+              </div>
+              <div class="example">
+                <strong>I am a student.</strong><br>
+                I ＝ 私は<br>
+                am ＝ です<br>
+                a student ＝ 生徒
+              </div>
+              <label class="check"><input type="checkbox" data-progress="lesson2"> ここを読んだ</label>
+            </article>
+
+            <article class="lesson">
+              <div class="lesson-head">
+                <div>
+                  <h3>3. 一般動詞は「走る・食べる・好き」</h3>
+                  <p>be動詞以外の動きや状態を表す言葉だよ。<code>run / like / have</code> みたいな語が入る。</p>
+                </div>
+              </div>
+              <div class="example">
+                <strong>She likes music.</strong><br>
+                She ＝ 彼女は<br>
+                likes ＝ 好きです / 好む<br>
+                music ＝ 音楽
+              </div>
+              <label class="check"><input type="checkbox" data-progress="lesson3"> ここを読んだ</label>
+            </article>
+
+            <article class="lesson">
+              <div class="lesson-head">
+                <div>
+                  <h3>4. 否定文と疑問文で do が出てくる</h3>
+                  <p>一般動詞の文では、否定や質問を作る時に <code>do / does</code> が助けに来るよ。</p>
+                </div>
+              </div>
+              <div class="example">
+                <strong>Do you play tennis?</strong><br>
+                Do ＝ 疑問文を作るお手伝い<br>
+                you ＝ あなたは<br>
+                play tennis ＝ テニスをする
+              </div>
+              <label class="check"><input type="checkbox" data-progress="lesson4"> ここを読んだ</label>
+            </article>
+          </div>
+        </section>
+
+        <section class="card" id="memo">
+          <h2>わからないメモ</h2>
+          <p class="sub">「ここが分からない」を置いておける場所。あとで見返すために、気になったことをそのまま残してね。</p>
+          <textarea id="memoBox" placeholder="例：be動詞と一般動詞が一緒に入らないのがまだピンとこない"></textarea>
+          <div class="row">
+            <button class="btn btn-main" id="saveMemoBtn" type="button">メモを保存</button>
+            <button class="btn btn-soft" id="clearMemoBtn" type="button">メモを消す</button>
+          </div>
+          <div class="save-note" id="memoState"></div>
+        </section>
+
+        <section class="card" id="review">
+          <h2>まちがえた問題</h2>
+          <p class="sub">間違えた問題だけ、あとでやさしく見直せるようにするよ。</p>
+          <div id="reviewList" class="review-list"></div>
+          <div class="row">
+            <button class="btn btn-sub" id="clearReviewBtn" type="button">復習リストを空にする</button>
+          </div>
+        </section>
+      </main>
+
+      <aside>
+        <section class="card">
+          <h2>進み具合</h2>
+          <p class="sub">完璧じゃなくて大丈夫。見たところにチェックがつくと、少し進んだ感じが出るよ。</p>
+          <div class="meter">
+            <div class="meter-box">
+              <div class="meter-label">学習の道を読んだ数</div>
+              <div class="bar"><span id="progressBar"></span></div>
+              <div class="meter-value" id="progressText">0 / 4 完了</div>
+            </div>
+            <div class="meter-box">
+              <div class="meter-label">今日の一問の正解数</div>
+              <div class="meter-value" id="scoreText">0 問正解</div>
+            </div>
+            <div class="meter-box" style="background: linear-gradient(180deg, #fffaf1, #fff); border-color: #ffe6af;">
+              <div class="meter-label">今日のひとこと</div>
+              <div class="meter-value" id="quoteText" style="color:#9b6a16; line-height:1.7;">文法は暗記だけじゃなくて、文のパーツを見分ける練習でもあるよ。</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>最初の目標</h2>
+          <p class="sub">今はここが分かれば十分だよ。</p>
+          <div class="empty">
+            1. 英語の文は「誰が → どうする」の順が多い<br>
+            2. be動詞は「です・いる・ある」<br>
+            3. 一般動詞は動きや行動を表す<br>
+            4. 質問や否定では do / does が助ける
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <footer>
+      これはブラウザの中にデータを保存する小さな学習部屋だよ。<br>
+      同じ端末・同じブラウザで開くと、メモや進み具合が残るようになっているよ。
+    </footer>
+  </div>
+
+  <script>
+    const questionBank = [
+      {
+        id: "q1",
+        type: "語の役割",
+        text: "『The fox runs.』で、<strong>名詞</strong>はどれ？",
+        choices: ["The fox", "runs"],
+        correct: 0,
+        explain: "The fox は『狐』というものの名前だから名詞。runs は『走る』という動きだから動詞だよ。"
+      },
+      {
+        id: "q2",
+        type: "語の役割",
+        text: "『The fox runs.』で、<strong>動詞</strong>はどれ？",
+        choices: ["The fox", "runs"],
+        correct: 1,
+        explain: "runs は『走る』という動きを表しているから動詞。The fox は『狐』で名詞だよ。"
+      },
+      {
+        id: "q3",
+        type: "be動詞",
+        text: "『I am a student.』で、<strong>be動詞</strong>はどれ？",
+        choices: ["I", "am", "student"],
+        correct: 1,
+        explain: "am は be動詞。I は『私』、student は『生徒』だよ。"
+      },
+      {
+        id: "q4",
+        type: "一般動詞",
+        text: "『She likes music.』で、<strong>どうする</strong>にあたる語はどれ？",
+        choices: ["She", "likes", "music"],
+        correct: 1,
+        explain: "likes は『好きです / 好む』で、どうするにあたる一般動詞だよ。"
+      },
+      {
+        id: "q5",
+        type: "疑問文",
+        text: "『Do you play tennis?』で、<strong>質問を作る手伝い</strong>をしている語はどれ？",
+        choices: ["Do", "you", "tennis"],
+        correct: 0,
+        explain: "Do は一般動詞の疑問文を作る時に前に出てくるお手伝い役だよ。"
+      },
+      {
+        id: "q6",
+        type: "否定文",
+        text: "『I do not play.』で、<strong>否定</strong>を表している語はどれ？",
+        choices: ["do", "not", "play"],
+        correct: 1,
+        explain: "not が『〜ない』の意味を出しているよ。do は一般動詞の文で否定を作るお手伝い。"
+      }
+    ];
+
+    const quotes = [
+      "分からないのは前に進んでる証拠だよ。",
+      "一気に全部じゃなくて、一個ずつ分けて見れば大丈夫。",
+      "英語はパズルみたいに組み立てると見やすいよ。",
+      "今日の一問だけでも、ちゃんと前進だよ。"
+    ];
+
+    const state = {
+      currentIndex: Number(localStorage.getItem("eng_room_currentIndex") || 0),
+      score: Number(localStorage.getItem("eng_room_score") || 0),
+      review: JSON.parse(localStorage.getItem("eng_room_review") || "[]"),
+      progress: JSON.parse(localStorage.getItem("eng_room_progress") || "{}"),
+      memo: localStorage.getItem("eng_room_memo") || ""
+    };
+
+    const els = {
+      questionCount: document.getElementById("questionCount"),
+      correctState: document.getElementById("correctState"),
+      questionType: document.getElementById("questionType"),
+      questionText: document.getElementById("questionText"),
+      choices: document.getElementById("choices"),
+      feedback: document.getElementById("feedback"),
+      nextQuestionBtn: document.getElementById("nextQuestionBtn"),
+      retryQuestionBtn: document.getElementById("retryQuestionBtn"),
+      progressBar: document.getElementById("progressBar"),
+      progressText: document.getElementById("progressText"),
+      scoreText: document.getElementById("scoreText"),
+      quoteText: document.getElementById("quoteText"),
+      memoBox: document.getElementById("memoBox"),
+      saveMemoBtn: document.getElementById("saveMemoBtn"),
+      clearMemoBtn: document.getElementById("clearMemoBtn"),
+      memoState: document.getElementById("memoState"),
+      reviewList: document.getElementById("reviewList"),
+      clearReviewBtn: document.getElementById("clearReviewBtn")
+    };
+
+    const progressBoxes = [...document.querySelectorAll("input[data-progress]")];
+
+    let answered = false;
+
+    function saveState() {
+      localStorage.setItem("eng_room_currentIndex", String(state.currentIndex));
+      localStorage.setItem("eng_room_score", String(state.score));
+      localStorage.setItem("eng_room_review", JSON.stringify(state.review));
+      localStorage.setItem("eng_room_progress", JSON.stringify(state.progress));
+      localStorage.setItem("eng_room_memo", state.memo);
+    }
+
+    function pickQuote() {
+      const day = new Date().getDate();
+      els.quoteText.textContent = quotes[day % quotes.length];
+    }
+
+    function updateMeters() {
+      const completed = Object.values(state.progress).filter(Boolean).length;
+      const total = progressBoxes.length;
+      const ratio = total ? (completed / total) * 100 : 0;
+      els.progressBar.style.width = ratio + "%";
+      els.progressText.textContent = `${completed} / ${total} 完了`;
+      els.scoreText.textContent = `${state.score} 問正解`;
+    }
+
+    function markProgressUI() {
+      progressBoxes.forEach(box => {
+        box.checked = !!state.progress[box.dataset.progress];
+      });
+      updateMeters();
+    }
+
+    function renderQuestion() {
+      answered = false;
+      const q = questionBank[state.currentIndex % questionBank.length];
+      els.questionCount.textContent = `問題 ${state.currentIndex % questionBank.length + 1} / ${questionBank.length}`;
+      els.correctState.textContent = "まだ回答していないよ";
+      els.questionType.textContent = q.type;
+      els.questionText.innerHTML = q.text;
+      els.feedback.className = "feedback";
+      els.feedback.textContent = "";
+      els.choices.innerHTML = "";
+
+      q.choices.forEach((choiceText, index) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "choice";
+        btn.innerHTML = `<span>${choiceText}</span>`;
+        btn.addEventListener("click", () => answerQuestion(index));
+        els.choices.appendChild(btn);
+      });
+    }
+
+    function ensureReview(id) {
+      if (!state.review.includes(id)) state.review.push(id);
+    }
+
+    function answerQuestion(selectedIndex) {
+      if (answered) return;
+      answered = true;
+      const q = questionBank[state.currentIndex % questionBank.length];
+      const choiceButtons = [...els.choices.querySelectorAll(".choice")];
+      const isCorrect = selectedIndex === q.correct;
+
+      choiceButtons.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === q.correct) {
+          btn.classList.add("correct");
+          if (idx === selectedIndex) {
+            btn.innerHTML += `<small>正解だよ</small>`;
+          } else {
+            btn.innerHTML += `<small>正解はこれ</small>`;
+          }
+        } else if (idx === selectedIndex) {
+          btn.classList.add("wrong");
+          btn.innerHTML += `<small>おしい、こっちはちがうよ</small>`;
+        } else {
+          btn.classList.add("dim");
+        }
+      });
+
+      if (isCorrect) {
+        state.score += 1;
+        els.correctState.textContent = "正解したよ";
+        els.feedback.className = "feedback good show";
+        els.feedback.innerHTML = `<strong>正解。</strong><br>${q.explain}`;
+      } else {
+        ensureReview(q.id);
+        els.correctState.textContent = "まちがえたけど大丈夫";
+        els.feedback.className = "feedback bad show";
+        els.feedback.innerHTML = `<strong>今回はここを見直そう。</strong><br>${q.explain}`;
+      }
+
+      saveState();
+      updateMeters();
+      renderReviewList();
+    }
+
+    function nextQuestion() {
+      state.currentIndex = (state.currentIndex + 1) % questionBank.length;
+      saveState();
+      renderQuestion();
+    }
+
+    function retryQuestion() {
+      renderQuestion();
+    }
+
+    function renderReviewList() {
+      els.reviewList.innerHTML = "";
+      if (!state.review.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "まだ空っぽだよ。間違えた問題が出たら、ここにたまっていくよ。";
+        els.reviewList.appendChild(empty);
+        return;
+      }
+
+      state.review.forEach(id => {
+        const q = questionBank.find(item => item.id === id);
+        if (!q) return;
+        const item = document.createElement("div");
+        item.className = "review-item";
+        item.innerHTML = `
+          <strong>${q.type}</strong>
+          <div style="color: var(--sub); line-height: 1.7;">${q.text.replace(/<[^>]+>/g, "")}</div>
+        `;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn btn-sub";
+        btn.style.marginTop = "10px";
+        btn.textContent = "この問題を開く";
+        btn.addEventListener("click", () => {
+          state.currentIndex = questionBank.findIndex(item => item.id === id);
+          saveState();
+          renderQuestion();
+          document.getElementById("daily").scrollIntoView({behavior: "smooth", block: "start"});
+        });
+        item.appendChild(btn);
+        els.reviewList.appendChild(item);
+      });
+    }
+
+    function saveMemo() {
+      state.memo = els.memoBox.value;
+      saveState();
+      els.memoState.textContent = "メモを保存したよ。";
+      setTimeout(() => {
+        if (els.memoState.textContent === "メモを保存したよ。") {
+          els.memoState.textContent = "";
+        }
+      }, 1800);
+    }
+
+    function clearMemo() {
+      els.memoBox.value = "";
+      state.memo = "";
+      saveState();
+      els.memoState.textContent = "メモを消したよ。";
+    }
+
+    function clearReview() {
+      state.review = [];
+      saveState();
+      renderReviewList();
+    }
+
+    progressBoxes.forEach(box => {
+      box.addEventListener("change", () => {
+        state.progress[box.dataset.progress] = box.checked;
+        saveState();
+        updateMeters();
+      });
+    });
+
+    els.nextQuestionBtn.addEventListener("click", nextQuestion);
+    els.retryQuestionBtn.addEventListener("click", retryQuestion);
+    els.saveMemoBtn.addEventListener("click", saveMemo);
+    els.clearMemoBtn.addEventListener("click", clearMemo);
+    els.clearReviewBtn.addEventListener("click", clearReview);
+
+    els.memoBox.value = state.memo;
+    markProgressUI();
+    pickQuote();
+    renderQuestion();
+    renderReviewList();
+  </script>
+</body>
+</html>
