@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>英語部屋・動作テスト</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
+      background: #f7f5ff;
+      color: #242238;
+    }
+    main {
+      width: min(88vw, 440px);
+      padding: 32px 24px;
+      box-sizing: border-box;
+      border-radius: 24px;
+      background: white;
+      box-shadow: 0 10px 30px rgba(44, 34, 98, .14);
+      text-align: center;
+    }
+    h1 { font-size: 1.35rem; margin: 0 0 12px; }
+    p { line-height: 1.7; }
+    button {
+      width: 100%;
+      margin-top: 14px;
+      padding: 16px;
+      border: 0;
+      border-radius: 14px;
+      font: inherit;
+      font-weight: 700;
+      color: white;
+      background: #6556c7;
+      cursor: pointer;
+    }
+    #result {
+      min-height: 2em;
+      margin: 20px 0 0;
+      padding: 14px;
+      border-radius: 14px;
+      background: #f0eeff;
+      font-weight: 700;
+    }
+    .success { background: #e6f7eb !important; color: #176c35; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>英語部屋・動作テスト</h1>
+    <p>下のボタンを押して、表示が変われば成功。</p>
+    <button id="testButton" type="button">ここを押す</button>
+    <p id="result" aria-live="polite">まだ押されていません</p>
+  </main>
+
+  <script>
+    const button = document.getElementById("testButton");
+    const result = document.getElementById("result");
+
+    button.addEventListener("click", () => {
+      result.textContent = "成功！ ボタンの動きが確認できたよ。";
+      result.classList.add("success");
+      button.textContent = "もう一度押しても大丈夫";
+    });
+  </script>
+</body>
+</html>
