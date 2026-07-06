@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#dff2e8">
+  <title>英語部屋｜中学英語をやさしく積み直す</title>
+  <style>
+    :root{
+      --bg:#dff1e7;
+      --grid:rgba(52,119,107,.12);
+      --paper:#fffdfd;
+      --paper-2:#f8fffc;
+      --ink:#216c67;
+      --ink-2:#3e827d;
+      --muted:#6d9691;
+      --mint:#bfe8df;
+      --mint-2:#8fc9bd;
+      --mint-3:#dff5ef;
+      --pink:#fae9ee;
+      --pink-2:#f6d9e2;
+      --blue:#dcecf8;
+      --yellow:#fff0bb;
+      --good:#d9f1e2;
+      --good-ink:#27754c;
+      --bad:#ffe4ea;
+      --bad-ink:#a34864;
+      --line:rgba(84,145,135,.19);
+      --shadow:0 14px 34px rgba(44,119,107,.12);
+      --soft-shadow:0 8px 22px rgba(44,119,107,.08);
+      --radius-xl:30px;
+      --radius-lg:22px;
+      --radius-md:16px;
+      --radius-sm:12px;
+      --max:1080px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+      background-color:var(--bg);
+      background-image:
+        linear-gradient(var(--grid) 1px,transparent 1px),
+        linear-gradient(90deg,var(--grid) 1px,transparent 1px),
+        radial-gradient(circle at 10% 4%,rgba(255,255,255,.72),transparent 26%),
+        radial-gradient(circle at 90% 15%,rgba(255,255,255,.58),transparent 25%);
+      background-size:20px 20px,20px 20px,auto,auto;
+      line-height:1.65;
+    }
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid rgba(77,167,157,.36);outline-offset:2px}
+    .app{width:min(var(--max),calc(100% - 24px));margin:0 auto;padding:18px 0 96px}
+    .topbar{
+      position:sticky;top:10px;z-index:40;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:14px 18px;margin:0 auto 18px;
+      background:rgba(255,253,253,.92);backdrop-filter:blur(14px);
+      border:1px solid rgba(255,255,255,.82);border-radius:999px;box-shadow:var(--soft-shadow);
+    }
+    .brand{display:flex;align-items:center;gap:10px;min-width:0}
+    .brand-badge{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--mint);font-size:18px;box-shadow:inset 0 0 0 1px rgba(33,108,103,.1)}
+    .brand-text{min-width:0}
+    .brand strong{display:block;font-size:1rem;letter-spacing:.08em;white-space:nowrap}
+    .brand small{display:block;color:var(--muted);font-size:.71rem;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .nav{display:flex;gap:5px;align-items:center;overflow:auto;scrollbar-width:none}
+    .nav::-webkit-scrollbar{display:none}
+    .nav-btn{border:0;background:transparent;border-radius:999px;color:var(--muted);padding:8px 11px;font-size:.78rem;font-weight:800;white-space:nowrap}
+    .nav-btn.active{background:var(--mint-3);color:var(--ink)}
+    .page{display:none;animation:fade .22s ease}
+    .page.active{display:block}
+    @keyframes fade{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+    .hero{
+      position:relative;overflow:hidden;padding:clamp(26px,5vw,56px);
+      min-height:300px;border-radius:var(--radius-xl);
+      background:linear-gradient(130deg,#96d0c4 0%,#bce8df 55%,#e1f5ef 100%);
+      box-shadow:var(--shadow);isolation:isolate;
+    }
+    .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;z-index:-1}
+    .hero::before{width:220px;height:220px;right:-92px;bottom:-108px;background:var(--pink);opacity:.85}
+    .hero::after{width:92px;height:92px;right:39%;top:30px;background:var(--blue);opacity:.8}
+    .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center}
+    .eyebrow{margin:0 0 12px;color:rgba(255,255,255,.9);font-size:.78rem;letter-spacing:.12em;font-weight:900}
+    .hero h1{margin:0;color:#fff;font-size:clamp(2rem,5vw,3.8rem);line-height:1.28;letter-spacing:.03em;text-wrap:balance}
+    .hero p{margin:16px 0 0;color:rgba(255,255,255,.95);font-weight:650;max-width:34em}
+    .hero-cards{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+    .hero-chip{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border-radius:999px;background:rgba(255,255,255,.65);color:var(--ink);font-size:.79rem;font-weight:800;border:1px solid rgba(255,255,255,.7)}
+    .today-mini{background:rgba(255,253,253,.94);border-radius:26px;padding:20px;box-shadow:0 18px 40px rgba(38,111,102,.13);border:1px solid rgba(255,255,255,.86)}
+    .today-mini .mini-kicker{margin:0;color:var(--muted);font-weight:900;font-size:.73rem;letter-spacing:.1em}
+    .today-mini h2{margin:8px 0 12px;font-size:1.15rem;line-height:1.45}
+    .mini-question{padding:13px;border-radius:16px;background:var(--pink);font-weight:800;color:var(--ink);font-size:.91rem}
+    .mini-choice-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .mini-choice{padding:7px 11px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:.82rem;font-weight:800}
+    .mini-choice:nth-child(2){background:var(--mint-3)}
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+    .section{margin-top:18px;padding:clamp(20px,4vw,34px);background:rgba(255,253,253,.94);border:1px solid rgba(255,255,255,.88);box-shadow:var(--soft-shadow);border-radius:var(--radius-xl)}
+    .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:16px}
+    .section-head h2{margin:0;font-size:clamp(1.35rem,3vw,2rem);line-height:1.3}
+    .section-head p{margin:5px 0 0;color:var(--muted);font-size:.92rem}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);padding:18px;box-shadow:0 7px 14px rgba(29,96,87,.04)}
+    .card h3{margin:0;font-size:1.12rem}
+    .card p{margin:7px 0;color:var(--muted);font-size:.92rem}
+    .quick-card{position:relative;min-height:192px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+    .quick-card::after{content:"";position:absolute;width:86px;height:86px;border-radius:50%;right:-27px;bottom:-28px;background:var(--mint-3);z-index:0}
+    .quick-card:nth-child(2)::after{background:var(--blue)}
+    .quick-card:nth-child(3)::after{background:var(--pink)}
+    .quick-card > *{position:relative;z-index:1}
+    .number{color:var(--muted);font-size:.75rem;font-weight:900;letter-spacing:.09em}
+    .tag{display:inline-flex;align-items:center;justify-content:center;width:max-content;border-radius:999px;padding:6px 10px;font-size:.72rem;font-weight:900;border:1px solid transparent}
+    .tag.mint{background:var(--mint-3);color:var(--ink)} .tag.pink{background:var(--pink);color:#9c536b}.tag.yellow{background:var(--yellow);color:#886d23}.tag.blue{background:var(--blue);color:#39759a}
+    .btn{border:0;border-radius:15px;padding:11px 14px;font-weight:900;line-height:1.1;transition:.16s transform,.16s filter,.16s box-shadow;box-shadow:0 5px 12px rgba(28,102,94,.1)}
+    .btn:hover{filter:brightness(.98);transform:translateY(-1px)}.btn:active{transform:translateY(0)}
+    .btn.primary{background:var(--ink);color:#fff}.btn.mint{background:var(--mint-3);color:var(--ink)}.btn.pink{background:var(--pink);color:#9b5169}.btn.paper{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn.warn{background:#fff0d9;color:#946e22}.btn.danger{background:var(--bad);color:var(--bad-ink)}
+    .btn.small{padding:8px 10px;border-radius:12px;font-size:.79rem}.btn.full{width:100%}
+    .btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .progress-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;margin-top:12px}
+    .bar{height:11px;border-radius:999px;background:#edf7f3;overflow:hidden;border:1px solid rgba(75,148,137,.12)}
+    .bar>span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--mint-2),var(--ink));width:0;transition:width .25s ease}
+    .progress-label{font-size:.8rem;font-weight:900;color:var(--muted)}
+    .swatch{aspect-ratio:1;border-radius:18px;border:1px solid rgba(0,0,0,.04);display:flex;align-items:flex-end;justify-content:center;padding:8px;text-align:center;font-size:.7rem;font-weight:900;box-shadow:inset 0 0 0 1px rgba(255,255,255,.5)}
+    .swatch:nth-child(1){background:var(--paper)}.swatch:nth-child(2){background:var(--mint)}.swatch:nth-child(3){background:var(--pink)}.swatch:nth-child(4){background:var(--blue)}.swatch:nth-child(5){background:var(--yellow)}.swatch:nth-child(6){background:var(--ink);color:#fff}
+
+    .lesson-layout{display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:start}
+    .lesson-nav{position:sticky;top:88px;padding:12px;max-height:calc(100vh - 110px);overflow:auto}
+    .chapter-label{margin:12px 6px 7px;font-size:.73rem;letter-spacing:.1em;color:var(--muted);font-weight:900}
+    .lesson-nav-item{width:100%;display:flex;align-items:center;gap:10px;text-align:left;border:0;background:transparent;padding:10px;border-radius:13px;color:var(--ink);font-weight:800}
+    .lesson-nav-item:hover{background:var(--mint-3)}.lesson-nav-item.active{background:var(--mint-3);box-shadow:inset 0 0 0 1px rgba(65,144,133,.12)}.lesson-nav-item.locked{opacity:.46;cursor:not-allowed}
+    .lesson-no{flex:0 0 auto;width:29px;height:29px;border-radius:10px;display:grid;place-items:center;background:var(--pink);color:#96526a;font-size:.75rem}.lesson-nav-item.done .lesson-no{background:var(--mint);color:var(--ink)}
+    .lesson-title-small{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.84rem}
+    .lesson-top{display:flex;gap:12px;align-items:flex-start;justify-content:space-between}.lesson-top .badge{padding:7px 10px;border-radius:999px;background:var(--mint-3);font-size:.75rem;font-weight:900}.lesson-top h2{margin:10px 0 0;font-size:clamp(1.5rem,4vw,2.2rem)}
+    .goal{margin:12px 0 0;padding:14px;border-radius:16px;background:var(--mint-3);font-weight:750}
+    .notes{margin:16px 0 0;padding-left:1.25em;color:var(--ink)}.notes li{margin:7px 0}
+    .example-box{margin-top:14px;padding:15px;border-radius:16px;background:var(--pink);font-weight:800}.example-box .en{display:block;margin-top:5px;font-size:1.08rem;letter-spacing:.02em}
+    .lesson-status{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+    .locked-panel{padding:22px;border-radius:20px;background:var(--pink);color:#925069;font-weight:800}
+
+    .practice-card{margin-top:18px}.practice-card h3{font-size:1.2rem}.practice-intro{color:var(--muted);margin:5px 0 14px}
+    .question-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.q-type{padding:5px 8px;border-radius:999px;background:var(--blue);font-size:.73rem;font-weight:900;color:#4a7897}.q-count{font-size:.78rem;color:var(--muted);font-weight:900}
+    .question-prompt{font-size:1.1rem;line-height:1.75;font-weight:850}.question-jp{margin:7px 0 0;color:var(--muted);font-size:.9rem}
+    .choice-list{display:grid;gap:10px;margin-top:16px}.choice{width:100%;text-align:left;border:1px solid var(--line);border-radius:15px;padding:13px 14px;background:#fff;color:var(--ink);font-weight:800;transition:.13s;box-shadow:0 4px 10px rgba(38,107,97,.04)}.choice:hover{background:var(--mint-3)}.choice.correct{background:var(--good);color:var(--good-ink);border-color:rgba(39,117,76,.22)}.choice.wrong{background:var(--bad);color:var(--bad-ink);border-color:rgba(163,72,100,.22)}.choice.muted{opacity:.52}
+    .input-wrap{display:flex;gap:10px;align-items:stretch;margin-top:16px}.answer-input{flex:1;min-width:0;border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px 13px;color:var(--ink);font-weight:800}.hint{margin-top:9px;color:var(--muted);font-size:.82rem}
+    .order-bank,.order-answer{display:flex;flex-wrap:wrap;gap:8px;padding:12px;border-radius:15px;min-height:56px;margin-top:12px}.order-bank{background:var(--mint-3)}.order-answer{background:var(--pink);border:1px dashed rgba(160,87,110,.26)}.word-chip{border:0;background:#fff;padding:8px 11px;border-radius:999px;color:var(--ink);font-weight:850;box-shadow:0 3px 8px rgba(42,108,99,.08)}.order-answer .word-chip{background:#fff6f8;color:#925069}
+    .feedback{display:none;margin-top:15px;padding:14px 15px;border-radius:16px;font-size:.94rem;font-weight:700}.feedback.show{display:block}.feedback.good{background:var(--good);color:var(--good-ink)}.feedback.bad{background:var(--bad);color:var(--bad-ink)}.feedback strong{display:block;margin-bottom:3px}
+    .q-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .result-card{text-align:center;padding:28px}.result-card h3{font-size:1.55rem;margin:0}.score-big{font-size:3.7rem;line-height:1;color:var(--ink);font-weight:950;margin:12px 0}.score-big small{font-size:1.2rem;color:var(--muted)}
+
+    .word-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}.search{flex:1;min-width:180px;border:1px solid var(--line);border-radius:14px;padding:11px 12px;background:#fff;color:var(--ink)}.filter-btn{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:999px;padding:8px 11px;font-size:.8rem;font-weight:900}.filter-btn.active{background:var(--mint-3);color:var(--ink)}
+    .word-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.word-card{position:relative;overflow:hidden}.word-card h3{font-size:1.2rem;display:flex;gap:8px;align-items:center}.word-card .meaning{margin:3px 0 8px;color:var(--ink);font-weight:800}.word-card .word-meta{font-size:.76rem;color:var(--muted);font-weight:750}.word-card .example{margin-top:12px;padding:10px;border-radius:12px;background:var(--mint-3);font-size:.84rem;color:var(--ink);font-weight:720}.word-card .word-actions{display:flex;gap:8px;margin-top:12px}.unsure{box-shadow:inset 0 0 0 2px rgba(197,123,148,.28)}
+    .empty{padding:22px;border-radius:18px;text-align:center;background:var(--mint-3);color:var(--muted);font-weight:750}
+
+    .survival-hero{background:linear-gradient(135deg,#fff6f7,#ffe9ef);border:1px solid rgba(229,162,184,.3)}.survival-top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.record{padding:12px 14px;border-radius:16px;background:#fff;color:#925069;font-weight:900}.mode-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}.mode-card{padding:18px;border-radius:20px;background:#fff;border:1px solid rgba(229,162,184,.35)}.mode-card h3{margin:0}.mode-card p{color:var(--muted);font-size:.9rem}.hearts{letter-spacing:.15em;font-size:1.2rem;color:#d57494}.survival-stat{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.stat-pill{padding:7px 10px;border-radius:999px;background:#fff;font-size:.79rem;font-weight:900;color:#925069}
+
+    .memo-area{width:100%;min-height:220px;resize:vertical;border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff;color:var(--ink);line-height:1.75}.memo-state{min-height:1.4em;color:var(--muted);font-size:.86rem;margin-top:8px}
+    .review-list{display:grid;gap:10px}.review-item{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:13px 14px;border:1px solid var(--line);background:#fff;border-radius:15px}.review-item strong{display:block}.review-item p{margin:4px 0 0;color:var(--muted);font-size:.85rem}
+    .setting-card{margin-top:14px;padding:17px;border:1px solid var(--line);background:#fff;border-radius:18px}.setting-card h3{margin:0}.setting-card p{color:var(--muted);font-size:.88rem;margin:6px 0 12px}
+    .toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,14px);z-index:100;opacity:0;pointer-events:none;transition:.18s;min-width:min(86vw,430px);padding:12px 15px;background:var(--ink);color:#fff;border-radius:14px;text-align:center;font-weight:800;box-shadow:var(--shadow)}.toast.show{opacity:1;transform:translate(-50%,0)}
+    .bottom-nav{display:none}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f2faf7;padding:1px 5px;border-radius:6px;color:var(--ink)}
+
+    @media (max-width:900px){.hero-grid,.lesson-layout{grid-template-columns:1fr}.lesson-nav{position:static;max-height:none;display:flex;gap:6px;overflow:auto;padding:8px}.chapter-label{display:none}.lesson-nav-item{flex:0 0 auto;width:48px;padding:8px}.lesson-title-small{display:none}.lesson-no{width:31px;height:31px}.grid-3,.word-grid{grid-template-columns:repeat(2,1fr)}.lesson-layout{gap:14px}.topbar{top:8px}.hero{padding:28px}.today-mini{max-width:430px}.app{padding-bottom:88px}}
+    @media (max-width:620px){body{background-size:16px 16px,16px 16px,auto,auto}.app{width:min(100% - 16px,var(--max));padding-top:10px}.topbar{padding:10px 12px;margin-bottom:12px}.brand-badge{width:31px;height:31px}.brand strong{font-size:.88rem}.brand small{display:none}.nav{display:none}.bottom-nav{position:fixed;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;left:8px;right:8px;bottom:9px;z-index:60;padding:7px;background:rgba(255,253,253,.95);backdrop-filter:blur(14px);box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.85);border-radius:20px}.bottom-nav button{border:0;background:transparent;border-radius:12px;padding:8px 3px;color:var(--muted);font-size:.63rem;font-weight:900}.bottom-nav button.active{background:var(--mint-3);color:var(--ink)}.bottom-nav .icon{display:block;font-size:1.1rem;line-height:1.2}.hero{min-height:0;border-radius:23px}.hero h1{font-size:2rem}.hero-grid{gap:16px}.section{padding:18px;border-radius:23px}.section-head{align-items:flex-start;flex-direction:column;gap:4px}.grid-3,.grid-2,.mode-grid,.word-grid{grid-template-columns:1fr}.input-wrap{flex-direction:column}.input-wrap .btn{width:100%}.q-actions .btn{flex:1}.lesson-top{flex-direction:column}.quick-card{min-height:170px}.today-mini{padding:16px}.hero-cards{margin-top:14px}.swatch{border-radius:15px}.review-item{flex-direction:column}.review-item .btn{width:100%}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-badge">✎</div>
+        <div class="brand-text"><strong>ENGLISH ROOM</strong><small>やさしく積み直す、中学英語。</small></div>
+      </div>
+      <nav class="nav" aria-label="ページ移動">
+        <button class="nav-btn active" data-page="home">HOME</button>
+        <button class="nav-btn" data-page="lessons">LESSON</button>
+        <button class="nav-btn" data-page="words">WORDS</button>
+        <button class="nav-btn" data-page="survival">SURVIVAL</button>
+        <button class="nav-btn" data-page="memo">MEMO</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page active" id="page-home">
+        <section class="hero">
+          <div class="hero-grid">
+            <div>
+              <p class="eyebrow">MASTER'S ENGLISH STUDY ROOM</p>
+              <h1>やさしく進める、<br>英語の学習部屋。</h1>
+              <p>参考書の進み方に合わせて、見分ける・並べる・つづる・打つ。分からないところはメモに残して、少しずつ自分のものにしていこう。</p>
+              <div class="hero-cards">
+                <span class="hero-chip">✦ 参考書より先には進まない</span>
+                <span class="hero-chip">✦ まちがいは復習に戻る</span>
+              </div>
+              <div class="hero-actions">
+                <button class="btn primary" id="homeStartBtn">今日の練習をはじめる</button>
+                <button class="btn paper" data-page="lessons">レッスンを選ぶ</button>
+              </div>
+            </div>
+            <aside class="today-mini" aria-label="今日の確認">
+              <p class="mini-kicker">TODAY'S CHECK</p>
+              <h2 id="homeCurrentLesson">Lesson 01｜主語と動詞</h2>
+              <div class="mini-question" id="homeQuestionPreview">「I play tennis.」の動詞は？</div>
+              <div class="mini-choice-row"><span class="mini-choice">I</span><span class="mini-choice">play</span><span class="mini-choice">tennis</span></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><div><h2>今週の学習</h2><p>白いカードをベースにして、正解・復習・新しい学習内容をやさしく分ける。</p></div></div>
+          <div class="grid-3">
+            <article class="card quick-card"><div><span class="number">01　LESSON</span><h3>今日の確認</h3><p>選択・並べ替え・入力問題。今のレッスンと復習を混ぜて出すよ。</p></div><div class="btn-row"><span class="tag yellow" id="homeLessonTag">進行中</span><button class="btn mint small" id="homeLessonGo">はじめる</button></div></article>
+            <article class="card quick-card"><div><span class="number">02　WORDS</span><h3>単語帳</h3><p>進めた範囲だけが増える。あやしい単語には印も付けられるよ。</p></div><div class="btn-row"><span class="tag mint">NEW</span><button class="btn mint small" data-page="words">ひらく</button></div></article>
+            <article class="card quick-card"><div><span class="number">03　SURVIVAL</span><h3>英単語サバイバル</h3><p>解禁済みの単語・文法だけで挑戦。連続正解記録を伸ばそう。</p></div><div class="btn-row"><span class="tag pink">GAME</span><button class="btn pink small" data-page="survival">挑戦する</button></div></article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><div><h2>進み具合</h2><p>完璧じゃなくて大丈夫。いまどこまで触ったかが見えるだけで、続きが分かりやすくなる。</p></div></div>
+          <div class="grid-2">
+            <article class="card"><span class="number">LESSON PROGRESS</span><h3 id="progressTitle">Lesson 01 を進めよう</h3><div class="progress-row"><div class="bar"><span id="lessonProgressBar"></span></div><div class="progress-label" id="lessonProgressText">0 / 17</div></div><p id="progressDescription">まずは「主語」と「動詞」から。参考書を読んだあとに練習してね。</p></article>
+            <article class="card"><span class="number">REVIEW BOX</span><h3>まちがえた問題</h3><p>間違えた問題は、次の練習や復習リストに優先して戻ってくるよ。</p><div class="btn-row"><span class="tag pink" id="reviewCountTag">0 件</span><button class="btn paper small" id="openReviewBtn">復習をひらく</button></div></article>
+          </div>
+        </section>
+
+      </section>
+
+      <section class="page" id="page-lessons">
+        <div class="lesson-layout">
+          <aside class="card lesson-nav" id="lessonNav" aria-label="レッスン一覧"></aside>
+          <section id="lessonContent"></section>
+        </div>
+      </section>
+
+      <section class="page" id="page-words">
+        <section class="section">
+          <div class="section-head"><div><h2>単語帳</h2><p>今まで解禁された単語だけを表示。意味だけじゃなく、役割・変化・例文も一緒に見よう。</p></div><span class="tag mint" id="wordUnlockedTag">解禁済み 0語</span></div>
+          <div class="word-tools"><input class="search" id="wordSearch" placeholder="英語・日本語で単語をさがす"><button class="filter-btn active" data-word-filter="all">すべて</button><button class="filter-btn" data-word-filter="unsure">あやしい</button><button class="filter-btn" data-word-filter="lesson">いまの範囲</button></div>
+          <div id="wordGrid" class="word-grid"></div>
+        </section>
+      </section>
+
+      <section class="page" id="page-survival">
+        <section class="section survival-hero">
+          <div class="survival-top"><div><span class="number">SURVIVAL MODE</span><h2 style="margin:5px 0 0">英単語サバイバル</h2><p style="margin:6px 0;color:var(--muted)">今まで解禁された範囲だけで、ランダムな問題に挑戦。</p></div><div class="record">最高記録：<span id="highScore">0</span>問</div></div>
+          <div class="mode-grid" id="survivalModes">
+            <article class="mode-card"><span class="tag pink">HARD</span><h3 style="margin-top:10px">本気サドンデス</h3><p>1問でも間違えたら終了。集中したい日に。</p><button class="btn primary full" data-survival-mode="hard">挑戦する</button></article>
+            <article class="mode-card"><span class="tag mint">SOFT</span><h3 style="margin-top:10px">ゆる練習</h3><p>ハート3つ。間違えても、少し続けられるよ。</p><button class="btn mint full" data-survival-mode="soft">はじめる</button></article>
+          </div>
+          <div id="survivalGame" style="display:none;margin-top:18px"></div>
+        </section>
+      </section>
+
+      <section class="page" id="page-memo">
+        <section class="section">
+          <div class="section-head"><div><h2>わからないメモ</h2><p>参考書を読んで引っかかったこと、僕に聞きたいことをそのまま残しておこう。</p></div></div>
+          <textarea class="memo-area" id="memoBox" placeholder="例：be動詞と一般動詞を一緒に使えない理由が、まだ少しあやしい。"></textarea>
+          <div class="btn-row" style="margin-top:12px"><button class="btn primary" id="saveMemoBtn">メモを保存</button><button class="btn paper" id="clearMemoBtn">メモを消す</button></div>
+          <div class="memo-state" id="memoState"></div>
+        </section>
+        <section class="section" id="reviewSection">
+          <div class="section-head"><div><h2>復習リスト</h2><p>間違えた問題はここにも残る。ひらいて、もう一回だけ確認することもできるよ。</p></div></div>
+          <div class="review-list" id="reviewList"></div>
+          <div class="btn-row" style="margin-top:12px"><button class="btn danger small" id="clearReviewBtn">復習リストを空にする</button></div>
+        </section>
+        <section class="section">
+          <div class="section-head"><div><h2>設定</h2><p>データはこの端末・このブラウザの中に保存されるよ。</p></div></div>
+          <div class="setting-card"><h3>学習の進み具合を最初からにする</h3><p>完了レッスンと今のレッスンを初期状態に戻す。単語の「あやしい」印とメモは残るよ。</p><button class="btn warn small" id="resetProgressBtn">進み具合だけリセット</button></div>
+          <div class="setting-card"><h3>この英語部屋の記録を全部消す</h3><p>進捗・復習・単語の印・メモ・最高記録を消す。元には戻せないから注意してね。</p><button class="btn danger small" id="resetAllBtn">すべての記録を消す</button></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <nav class="bottom-nav" aria-label="モバイル用ナビゲーション">
+    <button class="active" data-page="home"><span class="icon">⌂</span>HOME</button>
+    <button data-page="lessons"><span class="icon">▤</span>LESSON</button>
+    <button data-page="words"><span class="icon">▦</span>WORDS</button>
+    <button data-page="survival"><span class="icon">⚡</span>SURVIVAL</button>
+    <button data-page="memo"><span class="icon">✎</span>MEMO</button>
+  </nav>
+  <div class="toast" id="toast" aria-live="polite"></div>
+
+  <script>
+  (() => {
+    const LESSONS = [
+      {no:1,chapter:1,title:'主語と動詞',goal:'英語の文には「主語」と「動詞」が必要だと分かる。',notes:['主語は「〜は」にあたる、文の主役。','動詞は「どうする」「どんな状態」を表す言葉。','この回は、動詞のつづりを暗記しなくても大丈夫。'],example:'I play tennis.｜I = 主語 / play = 動詞'},
+      {no:2,chapter:1,title:'be動詞とは？',goal:'am / are / is が、イコールでつなぐ特別な動詞だと分かる。',notes:['be動詞は am / are / is の3つ。','「私＝ジュディ」のように、前後をイコールでつなぐ。','一般動詞とは役割が違う。'],example:'I am happy.｜I ＝ happy'},
+      {no:3,chapter:1,title:'am, are, is の使い分け①',goal:'I には am、you には are を使える。',notes:['I のときは am。','you のときは are。','I am は I\'m、you are は you\'re と短くもできる。'],example:'I am busy. / You are kind.'},
+      {no:4,chapter:1,title:'am, are, is の使い分け②',goal:'I / you 以外で、1人・1つなら is を選べる。',notes:['Ken、she、he、this book、my cat などは1人・1つ。','1人・1つの主語には is。','he is は he\'s、she is は she\'s と短くできる。'],example:'This book is interesting.'},
+      {no:5,chapter:1,title:'am, are, is の使い分け③',goal:'2人以上・2つ以上の主語なら are を選べる。',notes:['we、they、Ken and Aya、these books などは複数。','複数の主語には are。','「3人称」でも複数なら are。'],example:'They are friends.'},
+      {no:6,chapter:1,title:'am, are, is の整理',goal:'主語を見て am / are / is を選べる。',notes:['I → am','you / we / they / 複数 → are','I と you 以外の1人・1つ → is'],example:'My room is small. / We are ready.'},
+      {no:7,chapter:2,title:'一般動詞とは？',goal:'be動詞以外の動詞と、主語→動詞→そのほかの語順を使える。',notes:['play / like / have / study などは一般動詞。','一般動詞を使う文では、be動詞を重ねない。','語順は「誰が・何が」→「どうする」→「何を・どこで」など。'],example:'I like music.（I am like music. にはしない）'},
+      {no:8,chapter:2,title:'3人称とは？',goal:'I と you 以外が3人称だと分かる。',notes:['I / we は1人称、you は2人称。','自分と相手以外の人・物は3人称。','3人称は「3人いる」という意味ではない。'],example:'he / she / my cat / this book は3人称'},
+      {no:9,chapter:2,title:'動詞の形の使い分け①',goal:'3人称・単数のときだけ一般動詞に s がつくと分かる。',notes:['I / you のとき、一般動詞はそのまま。','he / she / Ken のような3人称単数なら s をつける。','複数のときは次のレッスンで確認。'],example:'I play. / She plays.'},
+      {no:10,chapter:2,title:'まちがえやすい3単現',goal:'has / goes / watches / studies の形を使える。',notes:['have → has は特別な形。','go / watch / wash などは es。','study は y を i に変えて studies。'],example:'He studies English every day.'},
+      {no:11,chapter:2,title:'動詞の形の使い分け②',goal:'複数の主語では一般動詞に s をつけないと分かる。',notes:['we / they / Ken and Aya / cats などは複数。','複数なら動詞はそのままの形。','3人称でも複数なら s はつかない。'],example:'Ken and Aya play tennis.'},
+      {no:12,chapter:2,title:'動詞の形のまとめ',goal:'主語を見て一般動詞をそのままにするか、s形にするか決められる。',notes:['I / you / 複数 → そのまま。','I・you以外の単数 → s形。','have のs形は has。'],example:'They watch TV. / My brother watches TV.'},
+      {no:13,chapter:3,title:'代名詞とは？',goal:'前に出た人や物を I / he / she / it / we / they などで言いかえられる。',notes:['代名詞は、名詞の代わりに使う言葉。','人だけでなく物にも使える。','this / that / these / those も指し示す代名詞。'],example:'Aya is my friend. She likes music.'},
+      {no:14,chapter:3,title:'彼の・私たちの など',goal:'my / your / his / her / our / their を名詞の前に置ける。',notes:['my / your / his / her / our / their は「だれだれの」。','必ず名詞の前に置く。','my の後ろに a / the は置かない。'],example:'This is my bag. / Her room is clean.'},
+      {no:15,chapter:3,title:'形容詞とは？',goal:'名詞に情報を足す言葉と、be動詞の後ろの形容詞を使える。',notes:['形容詞は「大きい犬」「新しい本」のように情報を足す。','名詞の前では、形容詞→名詞の順。','be動詞の後ろにも置ける。'],example:'a big dog / This book is interesting.'},
+      {no:16,chapter:3,title:'副詞とは？',goal:'時・場所・様子を足す言葉を使える。',notes:['every day / here / well などは文に情報を足す。','時・場所・様子は文の最後に置くことが多い。','always / often などは一般動詞の前に置くことが多い。'],example:'I study English every day. / She often walks.'},
+      {no:17,chapter:3,title:'前置詞とは？',goal:'in / on / at / to / from / before / after / with を名詞の前に置ける。',notes:['前置詞は名詞の前に置いて、場所や時間などを足す。','in the park / at ten / after lunch など。','前置詞＋名詞のまとまりを文の後ろに足せる。'],example:'We play in the park after school.'}
+    ];
+
+    const VOCAB = [
+      {word:'I',meaning:'私は',lesson:1,role:'主語',forms:'—',example:'I play tennis.'},
+      {word:'you',meaning:'あなたは／あなたたちは',lesson:1,role:'主語',forms:'—',example:'You run fast.'},
+      {word:'play',meaning:'する／演奏する',lesson:1,role:'一般動詞',forms:'plays',example:'I play tennis.'},
+      {word:'run',meaning:'走る',lesson:1,role:'一般動詞',forms:'runs',example:'You run fast.'},
+      {word:'study',meaning:'勉強する',lesson:1,role:'一般動詞',forms:'studies',example:'We study English.'},
+      {word:'am',meaning:'〜です／いる（I に使う）',lesson:2,role:'be動詞',forms:'be の形',example:'I am happy.'},
+      {word:'are',meaning:'〜です／いる（you・複数に使う）',lesson:2,role:'be動詞',forms:'be の形',example:'They are friends.'},
+      {word:'is',meaning:'〜です／いる（1人・1つに使う）',lesson:2,role:'be動詞',forms:'be の形',example:'This book is new.'},
+      {word:'happy',meaning:'幸せな／元気な',lesson:2,role:'形容詞',forms:'—',example:'I am happy.'},
+      {word:'busy',meaning:'忙しい',lesson:3,role:'形容詞',forms:'—',example:'I am busy.'},
+      {word:'kind',meaning:'親切な',lesson:3,role:'形容詞',forms:'—',example:'You are kind.'},
+      {word:'he',meaning:'彼は',lesson:4,role:'代名詞',forms:'—',example:'He is tall.'},
+      {word:'she',meaning:'彼女は',lesson:4,role:'代名詞',forms:'—',example:'She is kind.'},
+      {word:'this',meaning:'これは',lesson:4,role:'代名詞',forms:'these（複数）',example:'This is a book.'},
+      {word:'that',meaning:'あれは',lesson:4,role:'代名詞',forms:'those（複数）',example:'That is my bag.'},
+      {word:'we',meaning:'私たちは',lesson:5,role:'代名詞',forms:'—',example:'We are ready.'},
+      {word:'they',meaning:'彼らは／それらは',lesson:5,role:'代名詞',forms:'—',example:'They are friends.'},
+      {word:'friend',meaning:'友達',lesson:5,role:'名詞',forms:'friends',example:'They are friends.'},
+      {word:'like',meaning:'好き',lesson:7,role:'一般動詞',forms:'likes',example:'I like music.'},
+      {word:'have',meaning:'持っている／飼っている',lesson:7,role:'一般動詞',forms:'has',example:'I have a cat.'},
+      {word:'watch',meaning:'見る',lesson:7,role:'一般動詞',forms:'watches',example:'We watch TV.'},
+      {word:'music',meaning:'音楽',lesson:7,role:'名詞',forms:'—',example:'I like music.'},
+      {word:'soccer',meaning:'サッカー',lesson:7,role:'名詞',forms:'—',example:'I play soccer.'},
+      {word:'it',meaning:'それは',lesson:8,role:'代名詞',forms:'—',example:'It is new.'},
+      {word:'go',meaning:'行く',lesson:9,role:'一般動詞',forms:'goes',example:'He goes to school.'},
+      {word:'live',meaning:'住んでいる',lesson:9,role:'一般動詞',forms:'lives',example:'My uncle lives in Tokyo.'},
+      {word:'come',meaning:'来る',lesson:10,role:'一般動詞',forms:'comes',example:'She comes home at six.'},
+      {word:'teach',meaning:'教える',lesson:10,role:'一般動詞',forms:'teaches',example:'He teaches English.'},
+      {word:'wash',meaning:'洗う',lesson:10,role:'一般動詞',forms:'washes',example:'She washes her hands.'},
+      {word:'has',meaning:'持っている（have の3単現）',lesson:10,role:'一般動詞',forms:'have → has',example:'My brother has a bike.'},
+      {word:'my',meaning:'私の',lesson:14,role:'所有格',forms:'—',example:'This is my book.'},
+      {word:'your',meaning:'あなたの',lesson:14,role:'所有格',forms:'—',example:'Your bag is new.'},
+      {word:'his',meaning:'彼の',lesson:14,role:'所有格',forms:'—',example:'His cat is cute.'},
+      {word:'her',meaning:'彼女の',lesson:14,role:'所有格',forms:'—',example:'Her room is small.'},
+      {word:'our',meaning:'私たちの',lesson:14,role:'所有格',forms:'—',example:'Our school is big.'},
+      {word:'their',meaning:'彼らの／それらの',lesson:14,role:'所有格',forms:'—',example:'Their team is strong.'},
+      {word:'big',meaning:'大きい',lesson:15,role:'形容詞',forms:'—',example:'a big dog'},
+      {word:'new',meaning:'新しい',lesson:15,role:'形容詞',forms:'—',example:'a new bag'},
+      {word:'interesting',meaning:'おもしろい',lesson:15,role:'形容詞',forms:'—',example:'This book is interesting.'},
+      {word:'every day',meaning:'毎日',lesson:16,role:'副詞句',forms:'—',example:'I study every day.'},
+      {word:'well',meaning:'じょうずに',lesson:16,role:'副詞',forms:'—',example:'She sings well.'},
+      {word:'often',meaning:'よく',lesson:16,role:'副詞',forms:'—',example:'I often read books.'},
+      {word:'in',meaning:'〜の中に／〜に',lesson:17,role:'前置詞',forms:'in the park',example:'We play in the park.'},
+      {word:'on',meaning:'〜の上に',lesson:17,role:'前置詞',forms:'on the table',example:'The book is on the table.'},
+      {word:'at',meaning:'〜で／〜時に',lesson:17,role:'前置詞',forms:'at ten',example:'I study at ten.'},
+      {word:'to',meaning:'〜へ',lesson:17,role:'前置詞',forms:'to school',example:'She goes to school.'},
+      {word:'from',meaning:'〜から',lesson:17,role:'前置詞',forms:'from Tokyo',example:'He is from Tokyo.'},
+      {word:'before',meaning:'〜の前に',lesson:17,role:'前置詞',forms:'before lunch',example:'I read before lunch.'},
+      {word:'after',meaning:'〜の後に',lesson:17,role:'前置詞',forms:'after school',example:'We play after school.'},
+      {word:'with',meaning:'〜と一緒に',lesson:17,role:'前置詞',forms:'with my friend',example:'I study with my friend.'}
+    ];
+
+    const q=(id,lesson,type,prompt,answer,explanation,extra={})=>({id,lesson,type,prompt,answer,explanation,...extra});
+    const QUESTIONS=[
+      // 01 主語と動詞
+      q('l1-1',1,'choice','「I play tennis.」で、主語はどれ？','I','主語は「〜は」にあたる、文の主役。ここでは I（私は）だよ。',{options:['I','play','tennis'],jp:'まずは、文の主役を見つけよう。',speak:'I play tennis.'}),
+      q('l1-2',1,'choice','「I play tennis.」で、動詞はどれ？','play','play は「する」という動きを表すから動詞だよ。',{options:['I','play','tennis'],jp:'動詞は「どうする」にあたる言葉。',speak:'I play tennis.'}),
+      q('l1-3',1,'choice','「You run fast.」で、主語はどれ？','You','You は「あなたは」。文の主役だから主語だよ。',{options:['You','run','fast'],jp:'「〜は」にあたる部分を選ぼう。',speak:'You run fast.'}),
+      q('l1-4',1,'choice','「We study English.」で、動詞はどれ？','study','study は「勉強する」。動きを表す一般動詞だよ。',{options:['We','study','English'],jp:'まだ単語を暗記しなくて大丈夫。役割だけ見よう。',speak:'We study English.'}),
+      q('l1-5',1,'choice','「I read books.」の文の骨組みとして正しいのはどれ？','I＝主語 / read＝動詞','I は「私は」で主語、read は「読む」で動詞。英語の文にはこの骨組みがあるよ。',{options:['I＝主語 / read＝動詞','I＝動詞 / read＝主語','books＝主語 / I＝動詞'],jp:'主語と動詞を分けて考える問題。',speak:'I read books.'}),
+      // 02 be動詞
+      q('l2-1',2,'choice','次のうち、be動詞はどれ？','are','am / are / is が be動詞。前後をイコールでつなぐ特別な動詞だよ。',{options:['play','are','study'],jp:'be動詞をひとつ選ぼう。'}),
+      q('l2-2',2,'choice','「I am happy.」で、イコールでつないでいる語はどれ？','am','am が I と happy をつないでいる。I ＝ happy という関係だよ。',{options:['I','am','happy'],jp:'be動詞の働きを見つけよう。',speak:'I am happy.'}),
+      q('l2-3',2,'choice','「You play tennis.」の play はどちら？','一般動詞','play は「する」という動きを表す一般動詞。be動詞ではないよ。',{options:['be動詞','一般動詞'],jp:'動きを表す普通の動詞を一般動詞と呼ぶよ。'}),
+      q('l2-4',2,'choice','「She is kind.」の is はどちら？','be動詞','is は be動詞。She と kind をイコールでつないでいるよ。',{options:['be動詞','一般動詞'],jp:'「〜です」とつなぐ語を見よう。',speak:'She is kind.'}),
+      q('l2-5',2,'choice','英語で「I Judy.」と言えない理由として近いのはどれ？','英語の文には動詞が必要だから','I と Judy だけでは、文をつなぐ動詞がない。I am Judy. のように be動詞が必要だよ。',{options:['英語の文には動詞が必要だから','Judy は英語では使えないから','I は主語ではないから'],jp:'英語の文には、必ず動詞が必要。'}),
+      // 03 am are I you
+      q('l3-1',3,'choice','I に合う be動詞はどれ？','am','I のときは am。I am で「私は〜です」。',{options:['am','are','is'],jp:'I に合う形を選ぼう。'}),
+      q('l3-2',3,'choice','you に合う be動詞はどれ？','are','you のときは are。You are で「あなたは〜です」。',{options:['am','are','is'],jp:'you に合う形を選ぼう。'}),
+      q('l3-3',3,'input','「私は忙しいです」を完成させよう。 I ___ busy.',['am'],'I に合う be動詞は am。I am busy. になるよ。',{jp:'空欄に入る語を打とう。',hint:'a から始まる2文字',speak:'I am busy.'}),
+      q('l3-4',3,'input','「あなたは親切です」を完成させよう。 You ___ kind.',['are'],'you に合う be動詞は are。You are kind. になるよ。',{jp:'空欄に入る語を打とう。',hint:'a から始まる3文字',speak:'You are kind.'}),
+      q('l3-5',3,'sentence','「私は元気です」を英語で打とう。',['I am happy','I\'m happy','I’m happy'],'I am happy. が基本の形。I\'m happy. と短くしても正解だよ。',{jp:'大文字・ピリオド・余分な空白は気にしなくて大丈夫。',hint:'I am ...',speak:'I am happy.'}),
+      // 04 is singular
+      q('l4-1',4,'choice','Ken に合う be動詞はどれ？','is','Ken は I / you 以外の1人。だから is を使うよ。',{options:['am','are','is'],jp:'1人・1つなら is。'}),
+      q('l4-2',4,'choice','「This book ___ new.」に入るのは？','is','This book は1つの物。I / you 以外の単数だから is。',{options:['am','are','is'],jp:'this book は1つの物。',speak:'This book is new.'}),
+      q('l4-3',4,'input','「彼女は親切です」を完成させよう。 She ___ kind.',['is'],'She は1人の女性を指す。1人だから is。',{jp:'空欄に入る be動詞を打とう。',hint:'i から始まる2文字',speak:'She is kind.'}),
+      q('l4-4',4,'choice','「My cat ___ cute.」の正しい語はどれ？','is','My cat は1匹のねこ。1つとして扱うから is だよ。',{options:['am','are','is'],jp:'人以外でも、1つなら is。'}),
+      q('l4-5',4,'sentence','「これは新しい本です」を英語で打とう。',['This is a new book'],'This is a new book. の形。This は1つの物を指すから is。',{jp:'This + is + a new book',hint:'This is ...',speak:'This is a new book.'}),
+      // 05 are plural
+      q('l5-1',5,'choice','We に合う be動詞はどれ？','are','We は「私たちは」。複数だから are。',{options:['am','are','is'],jp:'複数の主語には are。'}),
+      q('l5-2',5,'choice','They に合う be動詞はどれ？','are','They は「彼らは／それらは」。複数だから are。',{options:['am','are','is'],jp:'they は複数を指すよ。'}),
+      q('l5-3',5,'input','「彼らは友達です」を完成させよう。 They ___ friends.',['are'],'They は複数。だから are。',{jp:'空欄に入る be動詞を打とう。',hint:'a から始まる3文字',speak:'They are friends.'}),
+      q('l5-4',5,'choice','「Aya and Ken ___ students.」に入るのは？','are','Aya and Ken は2人。複数なので are。',{options:['am','are','is'],jp:'and で2人がつながると複数。'}),
+      q('l5-5',5,'sentence','「私たちは準備できています」を英語で打とう。',['We are ready','We\'re ready','We’re ready'],'We are ready. が基本。We\'re ready. も正解だよ。',{jp:'We + are + ready',hint:'We are ...',speak:'We are ready.'}),
+      // 06 summary
+      q('l6-1',6,'choice','「I ___ a student.」に入るのは？','am','I のときは am。',{options:['am','are','is'],jp:'主語を見て選ぼう。'}),
+      q('l6-2',6,'choice','「My room ___ small.」に入るのは？','is','My room は1つの部屋。I / you 以外の単数なので is。',{options:['am','are','is'],jp:'1つなら is。'}),
+      q('l6-3',6,'choice','「My friends ___ kind.」に入るのは？','are','My friends は複数。だから are。',{options:['am','are','is'],jp:'friends は複数。'}),
+      q('l6-4',6,'order','「あなたはとても親切です」を語順に並べよう。','You are very kind','You are very kind. の順。you に are を合わせよう。',{tokens:['You','are','very','kind'],jp:'単語を押して、左から順に並べよう。',speak:'You are very kind.'}),
+      q('l6-5',6,'sentence','「私のねこはかわいいです」を英語で打とう。',['My cat is cute'],'My cat は1匹だから is。My cat is cute. になるよ。',{jp:'My cat + is + cute',hint:'My cat is ...',speak:'My cat is cute.'}),
+      // 07 general verbs
+      q('l7-1',7,'choice','「I like music.」で、一般動詞はどれ？','like','like は「好き」。be動詞以外の一般動詞だよ。',{options:['I','like','music'],jp:'「どうする」にあたる語を見つけよう。',speak:'I like music.'}),
+      q('l7-2',7,'choice','「私は音楽が好きです」を表す正しい文はどれ？','I like music.','like を一般動詞として使うので、am は重ねない。',{options:['I am like music.','I like music.','I music like.'],jp:'主語 → 動詞 → そのほか、の語順。'}),
+      q('l7-3',7,'order','「私はサッカーをします」を語順に並べよう。','I play soccer','英語は I → play → soccer の順。',{tokens:['I','play','soccer'],jp:'主語 → 動詞 → 何を、の順に並べよう。',speak:'I play soccer.'}),
+      q('l7-4',7,'input','「あなたはテレビを見ます」を完成させよう。 You ___ TV.',['watch'],'You のあとに、一般動詞 watch をそのまま置くよ。',{jp:'watch を打とう。',hint:'w から始まる5文字',speak:'You watch TV.'}),
+      q('l7-5',7,'sentence','「私たちは英語を勉強します」を英語で打とう。',['We study English'],'We study English. のように、一般動詞 study を使う時は are を入れないよ。',{jp:'We + study + English',hint:'We study ...',speak:'We study English.'}),
+      // 08 third person
+      q('l8-1',8,'choice','次のうち、3人称はどれ？','my cat','I と you 以外の人や物は3人称。my cat は3人称だよ。',{options:['I','you','my cat'],jp:'自分・相手以外を探そう。'}),
+      q('l8-2',8,'choice','次のうち、2人称はどれ？','you','you は相手を指す語。2人称だよ。',{options:['you','she','this book'],jp:'「あなたは／あなたたちは」にあたる語。'}),
+      q('l8-3',8,'choice','「this book」は何人称？','3人称','this book は自分でも相手でもない「物」。だから3人称。',{options:['1人称','2人称','3人称'],jp:'人でなくても、I / you 以外なら3人称。'}),
+      q('l8-4',8,'choice','「we」は何人称？','1人称','we は「私たち」。自分側を指すので1人称だよ。',{options:['1人称','2人称','3人称'],jp:'人数ではなく、誰を指すかで考える。'}),
+      q('l8-5',8,'choice','「3人称」の説明として正しいのはどれ？','I と you 以外を指す語','3人称は「3人いる」ではない。自分と相手以外を指す考え方だよ。',{options:['3人いる時だけ使う語','I と you 以外を指す語','複数だけを指す語'],jp:'言葉の意味を確認。'}),
+      // 09 3rd s
+      q('l9-1',9,'choice','「He ___ tennis.」に入るのは？','plays','He は3人称・単数。一般動詞 play に s をつけて plays。',{options:['play','plays'],jp:'3人称単数なら s形。'}),
+      q('l9-2',9,'choice','「I ___ tennis.」に入るのは？','play','I のときは一般動詞はそのまま。play だよ。',{options:['play','plays'],jp:'I / you はそのままの形。'}),
+      q('l9-3',9,'input','「彼女は音楽が好きです」を完成させよう。 She ___ music.',['likes'],'She は3人称単数。like に s をつけて likes。',{jp:'likes を打とう。',hint:'l から始まる5文字',speak:'She likes music.'}),
+      q('l9-4',9,'choice','「My father ___ TV.」に入るのは？','watches','My father は3人称単数。watch の形はここでは watches。',{options:['watch','watches'],jp:'3人称単数の動詞の形を選ぼう。'}),
+      q('l9-5',9,'sentence','「ケンはギターを弾きます」を英語で打とう。',['Ken plays the guitar'],'Ken は3人称単数だから plays。',{jp:'Ken + plays + the guitar',hint:'Ken plays ...',speak:'Ken plays the guitar.'}),
+      // 10 spelling
+      q('l10-1',10,'input','have の3人称単数・現在形を打とう。',['has'],'have は普通に s を付けず、has という特別な形になるよ。',{jp:'have → ?',hint:'h から始まる3文字',speak:'has'}),
+      q('l10-2',10,'input','go の3人称単数・現在形を打とう。',['goes'],'go は s ではなく es をつけて goes。',{jp:'go → ?',hint:'g から始まる4文字',speak:'goes'}),
+      q('l10-3',10,'input','watch の3人称単数・現在形を打とう。',['watches'],'watch は es をつけて watches。',{jp:'watch → ?',hint:'w から始まる7文字',speak:'watches'}),
+      q('l10-4',10,'input','study の3人称単数・現在形を打とう。',['studies'],'study は y を i に変えて、es をつける。studies だよ。',{jp:'study → ?',hint:'s から始まる7文字',speak:'studies'}),
+      q('l10-5',10,'choice','「She ___ English every day.」に入るのは？','studies','She は3人称単数。study は studies に変わるよ。',{options:['study','studys','studies'],jp:'y → ies の形を選ぼう。'}),
+      // 11 plural subject
+      q('l11-1',11,'choice','「They ___ soccer.」に入るのは？','play','They は複数。一般動詞はそのままの play。',{options:['play','plays'],jp:'複数なら s はつかない。'}),
+      q('l11-2',11,'choice','「Aya and Ken ___ tennis.」に入るのは？','play','Aya and Ken は2人。複数だから play。',{options:['play','plays'],jp:'and で2人がつながると複数。'}),
+      q('l11-3',11,'input','「We ___ English.」に入る動詞を打とう。',['study'],'We は複数。study はそのままの形。',{jp:'study を打とう。',hint:'s から始まる5文字',speak:'We study English.'}),
+      q('l11-4',11,'choice','「Cats ___ fish.」に入るのは？','like','Cats はねこたちで複数。like はそのまま。',{options:['like','likes'],jp:'複数の主語では s形にしない。'}),
+      q('l11-5',11,'sentence','「彼らは日本語を話します」を英語で打とう。',['They speak Japanese'],'They は複数だから speak。s はつけないよ。',{jp:'They + speak + Japanese',hint:'They speak ...',speak:'They speak Japanese.'}),
+      // 12 summary gen verb
+      q('l12-1',12,'choice','「My brother ___ a bike.」に入るのは？','has','My brother は3人称単数。have の形は has。',{options:['have','has'],jp:'特別な3単現を思い出そう。'}),
+      q('l12-2',12,'choice','「We ___ TV every day.」に入るのは？','watch','We は複数。watch はそのまま。',{options:['watch','watches'],jp:'複数ならそのまま。'}),
+      q('l12-3',12,'choice','「This bus ___ to school.」に入るのは？','goes','This bus は1つ。go の3人称単数は goes。',{options:['go','goes'],jp:'1つの物なら3人称単数。'}),
+      q('l12-4',12,'order','「彼らは毎日英語を勉強します」を語順に並べよう。','They study English every day','They は複数なので study。every day は文の後ろに足せるよ。',{tokens:['They','study','English','every day'],jp:'主語 → 動詞 → そのほか の順。',speak:'They study English every day.'}),
+      q('l12-5',12,'sentence','「私の母は犬が好きです」を英語で打とう。',['My mother likes dogs'],'My mother は3人称単数だから likes。',{jp:'My mother + likes + dogs',hint:'My mother likes ...',speak:'My mother likes dogs.'}),
+      // 13 pronouns
+      q('l13-1',13,'choice','「Aya is my friend. ___ likes music.」に入るのは？','She','Aya は1人の女性。2回目は She で言いかえられるよ。',{options:['He','She','They'],jp:'前に出た人を代名詞にしよう。'}),
+      q('l13-2',13,'choice','「This book is new. ___ is interesting, too.」に入るのは？','It','This book は1つの物。代名詞にすると It。',{options:['It','They','We'],jp:'物でも1つなら it。'}),
+      q('l13-3',13,'choice','「Ken and Rina are friends. ___ are kind.」に入るのは？','They','Ken and Rina は2人。複数の人を受ける代名詞は They。',{options:['He','She','They'],jp:'複数の人を言いかえよう。'}),
+      q('l13-4',13,'input','「私たちは学生です」を完成させよう。 ___ are students.',['We'],'「私たち」は We。複数だから are と組み合わせるよ。',{jp:'主語の代名詞を打とう。',hint:'W から始まる2文字',speak:'We are students.'}),
+      q('l13-5',13,'sentence','「これは私の友達です」を英語で打とう。',['This is my friend'],'This is my friend. で「これは私の友達です」。',{jp:'This + is + my friend',hint:'This is ...',speak:'This is my friend.'}),
+      // 14 possessive
+      q('l14-1',14,'choice','「これは私の本です」を完成させよう。 This is ___ book.','my','「私の」は my。名詞 book の前に置くよ。',{options:['my','me','I'],jp:'「だれの？」を表す語。'}),
+      q('l14-2',14,'choice','「彼女の部屋」はどれ？','her room','「彼女の」は her。名詞 room の前に置くよ。',{options:['she room','her room','hers room'],jp:'所有格は名詞の前。'}),
+      q('l14-3',14,'choice','正しい文はどれ？','This is my bike.','my のあとには名詞が必要。a my bike のようにはしない。',{options:['This is my.','This is a my bike.','This is my bike.'],jp:'my の使い方を確認。'}),
+      q('l14-4',14,'input','「彼らのチーム」を完成させよう。 ___ team',['their'],'their は「彼らの／それらの」。team の前に置くよ。',{jp:'所有格を打とう。',hint:'t から始まる5文字',speak:'their team'}),
+      q('l14-5',14,'sentence','「あなたの英語はとても良いです」を英語で打とう。',['Your English is very good'],'Your English is very good. の形。Your は English の前に置くよ。',{jp:'Your English + is + very good',hint:'Your English is ...',speak:'Your English is very good.'}),
+      // 15 adjective
+      q('l15-1',15,'order','「大きい犬」を語順に並べよう。','a big dog','形容詞 big は、名詞 dog のすぐ前。a big dog の順だよ。',{tokens:['a','big','dog'],jp:'形容詞は名詞の前。',speak:'a big dog'}),
+      q('l15-2',15,'choice','「新しいかばん」はどれ？','a new bag','形容詞 new は名詞 bag の前。',{options:['new a bag','a bag new','a new bag'],jp:'形容詞と名詞の順番。'}),
+      q('l15-3',15,'choice','正しい文はどれ？','This book is interesting.','形容詞 interesting は be動詞の後ろにも置ける。',{options:['This book interesting.','This book is interesting.','This interesting is book.'],jp:'英語の文には動詞が必要。'}),
+      q('l15-4',15,'input','「これは簡単な質問です」を完成させよう。 This is an ___ question.',['easy'],'形容詞 easy を名詞 question の前に置くよ。',{jp:'形容詞を打とう。',hint:'e から始まる4文字',speak:'This is an easy question.'}),
+      q('l15-5',15,'sentence','「私の新しいかばんは大きいです」を英語で打とう。',['My new bag is big'],'My new bag is big. のように、new は bag の前、big は is の後ろ。',{jp:'My new bag + is + big',hint:'My new bag is ...',speak:'My new bag is big.'}),
+      // 16 adverb
+      q('l16-1',16,'choice','「I study English ___ .」に「毎日」を足すなら？','every day','every day は時を足す言葉。文の後ろに置けるよ。',{options:['every day','every','day every'],jp:'時を表す言葉を文の後ろへ。'}),
+      q('l16-2',16,'choice','「She plays the piano ___ .」に「じょうずに」を足すなら？','well','well は様子を表す副詞。文の後ろに置けるよ。',{options:['good','well','beautiful'],jp:'「じょうずに」は well。'}),
+      q('l16-3',16,'choice','「I ___ read books.」に「よく」を入れるなら？','often','often は「よく」。一般動詞 read の前に置くことが多いよ。',{options:['often','books often','read often'],jp:'頻度の副詞の位置を確認。'}),
+      q('l16-4',16,'order','「彼は毎日ここで勉強します」を語順に並べよう。','He studies here every day','here / every day は情報を足す語。文の後ろに置けるよ。',{tokens:['He','studies','here','every day'],jp:'主語 → 動詞 → 場所 → 時 の形。',speak:'He studies here every day.'}),
+      q('l16-5',16,'sentence','「私たちはときどきテニスをします」を英語で打とう。',['We sometimes play tennis'],'sometimes は一般動詞 play の前に置けるよ。',{jp:'We + sometimes + play tennis',hint:'We sometimes ...',speak:'We sometimes play tennis.'}),
+      // 17 prepositions
+      q('l17-1',17,'choice','「We play ___ the park.」に入るのは？','in','in the park で「公園で」。前置詞 in は名詞 the park の前に置くよ。',{options:['in','on','from'],jp:'場所を足す前置詞。'}),
+      q('l17-2',17,'choice','「The book is ___ the table.」に入るのは？','on','on the table で「テーブルの上に」。',{options:['on','at','to'],jp:'物の位置を表そう。'}),
+      q('l17-3',17,'choice','「She goes ___ school.」に入るのは？','to','to school で「学校へ」。移動の先を表すよ。',{options:['to','from','with'],jp:'行き先を表す前置詞。'}),
+      q('l17-4',17,'order','「私は放課後に友達と勉強します」を語順に並べよう。','I study with my friend after school','with my friend / after school は、文に情報を足すまとまり。',{tokens:['I','study','with','my friend','after school'],jp:'前置詞＋名詞を文の後ろに足そう。',speak:'I study with my friend after school.'}),
+      q('l17-5',17,'sentence','「彼は東京出身です」を英語で打とう。',['He is from Tokyo'],'from Tokyo で「東京から／東京出身」。',{jp:'He is + from Tokyo',hint:'He is from ...',speak:'He is from Tokyo.'})
+    ];
+
+    const STORAGE='english_room_v3';
+    const defaultState=()=>({completed:[],selectedLesson:1,questionStats:{},review:[],memo:'',unsureWords:[],highScore:0});
+    let state=loadState();
+    let currentPage='home';
+    let practice=null;
+    let orderPicked=[];
+    let wordFilter='all';
+    let survival=null;
+
+    const $=s=>document.querySelector(s);
+    const $$=s=>[...document.querySelectorAll(s)];
+    const escapeHTML=str=>String(str).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    function loadState(){try{return {...defaultState(),...JSON.parse(localStorage.getItem(STORAGE)||'{}')}}catch{return defaultState()}}
+    function saveState(){localStorage.setItem(STORAGE,JSON.stringify(state))}
+    function normalize(s){return String(s).toLowerCase().replace(/[’‘]/g,"'").replace(/[.,!?;:]/g,'').replace(/\s+/g,' ').trim()}
+    function showToast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(showToast.t);showToast.t=setTimeout(()=>el.classList.remove('show'),2200)}
+    function getMaxCompleted(){return state.completed.length?Math.max(...state.completed):0}
+    function availableLesson(){return Math.min(getMaxCompleted()+1,LESSONS.length)}
+    function isUnlocked(no){return no<=availableLesson()}
+    function getSelectedLesson(){return LESSONS.find(l=>l.no===state.selectedLesson)||LESSONS[0]}
+    function stat(qid){return state.questionStats[qid]||{seen:0,correct:0,mistakes:0,last:0}}
+    function updateStat(qid,correct){const s=stat(qid);s.seen++;s.last=Date.now();if(correct)s.correct++;else s.mistakes++;state.questionStats[qid]=s}
+    function reviewAdd(qid){if(!state.review.includes(qid))state.review.unshift(qid);state.review=state.review.slice(0,40)}
+    function speak(text){if(!('speechSynthesis' in window)){showToast('このブラウザでは読み上げが使えないみたい。');return}window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=.82;window.speechSynthesis.speak(u)}
+
+    function switchPage(page){
+      currentPage=page;
+      $$('.page').forEach(p=>p.classList.toggle('active',p.id===`page-${page}`));
+      $$('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+      if(page==='home')renderHome();
+      if(page==='lessons')renderLessons();
+      if(page==='words')renderWords();
+      if(page==='memo')renderMemo();
+      if(page==='survival')renderSurvival();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    function renderHome(){
+      const current=getSelectedLesson();const done=state.completed.length;const total=LESSONS.length;
+      $('#homeCurrentLesson').textContent=`Lesson ${String(current.no).padStart(2,'0')}｜${current.title}`;
+      const sample=QUESTIONS.find(q=>q.lesson===current.no)||QUESTIONS[0];
+      $('#homeQuestionPreview').textContent=sample.prompt.replace(/<[^>]*>/g,'');
+      $('#lessonProgressBar').style.width=`${(done/total)*100}%`;
+      $('#lessonProgressText').textContent=`${done} / ${total}`;
+      $('#progressTitle').textContent=done===total?'基礎コースを完走したよ！':`Lesson ${String(current.no).padStart(2,'0')} を進めよう`;
+      $('#progressDescription').textContent=done===total?'Chapter 1〜3を終えたよ。復習とサバイバルで定着させよう。':current.goal;
+      $('#reviewCountTag').textContent=`${state.review.length} 件`;
+      $('#homeLessonTag').textContent=done===total?'完走！':'進行中';
+    }
+
+    function renderLessons(){
+      const nav=$('#lessonNav');nav.innerHTML='';
+      [1,2,3].forEach(ch=>{
+        const label=document.createElement('div');label.className='chapter-label';label.textContent=`CHAPTER ${String(ch).padStart(2,'0')}`;nav.appendChild(label);
+        LESSONS.filter(l=>l.chapter===ch).forEach(l=>{
+          const b=document.createElement('button');b.className=`lesson-nav-item ${l.no===state.selectedLesson?'active':''} ${state.completed.includes(l.no)?'done':''} ${!isUnlocked(l.no)?'locked':''}`;
+          b.innerHTML=`<span class="lesson-no">${state.completed.includes(l.no)?'✓':String(l.no).padStart(2,'0')}</span><span class="lesson-title-small">${escapeHTML(l.title)}</span>`;
+          if(isUnlocked(l.no)) b.addEventListener('click',()=>{state.selectedLesson=l.no;saveState();practice=null;renderLessons()});
+          nav.appendChild(b);
+        });
+      });
+      renderLessonContent();
+    }
+
+    function renderLessonContent(){
+      const l=getSelectedLesson();const target=$('#lessonContent');
+      if(!isUnlocked(l.no)){
+        target.innerHTML=`<section class="section"><div class="locked-panel">このレッスンはまだ鍵がかかっているよ。前のレッスンを終えたら開くようになる。</div></section>`;return;
+      }
+      const done=state.completed.includes(l.no);
+      target.innerHTML=`
+        <section class="section">
+          <div class="lesson-top"><div><span class="badge">CHAPTER ${String(l.chapter).padStart(2,'0')}　LESSON ${String(l.no).padStart(2,'0')}</span><h2>${escapeHTML(l.title)}</h2></div><span class="tag ${done?'mint':'yellow'}">${done?'完了':'いま学ぶ範囲'}</span></div>
+          <div class="goal"><strong>今日のゴール：</strong>${escapeHTML(l.goal)}</div>
+          <ul class="notes">${l.notes.map(n=>`<li>${escapeHTML(n)}</li>`).join('')}</ul>
+          <div class="example-box"><span>イメージ例</span><span class="en">${escapeHTML(l.example)}</span><button class="btn paper small" style="margin-top:9px" data-speak="${escapeHTML(l.example.split('｜')[0].split('/')[0])}">🔊 読み上げ</button></div>
+          <div class="lesson-status"><span class="tag mint">選択・並べ替え・入力で確認</span><span class="tag pink">未習の文法は出さない</span></div>
+        </section>
+        <section class="section practice-card" id="practiceArea"></section>
+      `;
+      if(practice&&practice.lesson===l.no)renderPractice();else renderPracticeStart(l);
+    }
+
+    function renderPracticeStart(l){
+      $('#practiceArea').innerHTML=`<h3>このレッスンの練習</h3><p class="practice-intro">今のレッスンを中心に、前にまちがえた問題も少し混ぜて5問出すよ。問題は毎回少し変わる。</p><div class="btn-row"><button class="btn primary" id="startPracticeBtn">5問はじめる</button>${state.completed.includes(l.no)?'<button class="btn paper" id="repeatLessonBtn">もう一度練習</button>':''}</div>`;
+      $('#startPracticeBtn').addEventListener('click',()=>startPractice(l.no));
+      $('#repeatLessonBtn')?.addEventListener('click',()=>startPractice(l.no));
+    }
+
+    function weightedPick(pool,count,avoid=[]){
+      const chosen=[];const work=pool.filter(q=>!avoid.includes(q.id));
+      while(chosen.length<count&&work.length){
+        work.sort((a,b)=>scoreQ(b)-scoreQ(a));
+        const top=work.slice(0,Math.min(7,work.length));const pick=top[Math.floor(Math.random()*top.length)];
+        chosen.push(pick);work.splice(work.findIndex(q=>q.id===pick.id),1);
+      }
+      return chosen;
+    }
+    function scoreQ(q){const s=stat(q.id);const age=s.last?(Date.now()-s.last)/86400000:30;return s.mistakes*80+(s.seen===0?50:0)+Math.min(age,30)*2+Math.random()*18}
+    function buildSession(lessonNo){
+      const own=QUESTIONS.filter(q=>q.lesson===lessonNo);
+      const prev=QUESTIONS.filter(q=>q.lesson<lessonNo&&q.lesson<=getMaxCompleted());
+      const wrong=state.review.map(id=>QUESTIONS.find(q=>q.id===id)).filter(Boolean).filter(q=>q.lesson<lessonNo);
+      const ownCount=Math.min(3,own.length);
+      const picks=weightedPick(own,ownCount);
+      const reviewPicks=weightedPick([...wrong,...prev.filter(q=>!wrong.some(w=>w.id===q.id))],2,picks.map(q=>q.id));
+      let all=[...picks,...reviewPicks];
+      if(all.length<5)all=[...all,...weightedPick(own,5-all.length,all.map(q=>q.id))];
+      return all.sort(()=>Math.random()-.5).slice(0,5);
+    }
+    function startPractice(lesson){practice={lesson,questions:buildSession(lesson),index:0,score:0,answered:false};orderPicked=[];renderPractice()}
+    function qTypeName(type){return({choice:'えらぶ',input:'つづり・穴埋め',sentence:'英文入力',order:'並べ替え'})[type]||'問題'}
+    function renderPractice(){
+      const area=$('#practiceArea');
+      if(!practice)return;
+      if(practice.index>=practice.questions.length){renderPracticeResult();return}
+      const q=practice.questions[practice.index];
+      area.innerHTML=`
+        <div class="question-meta"><span class="q-type">${qTypeName(q.type)}</span><span class="q-count">${practice.index+1} / ${practice.questions.length}</span>${q.speak?`<button class="btn paper small" data-speak="${escapeHTML(q.speak)}">🔊 読み上げ</button>`:''}</div>
+        <div class="question-prompt">${escapeHTML(q.prompt)}</div>${q.jp?`<p class="question-jp">${escapeHTML(q.jp)}</p>`:''}
+        <div id="questionBody"></div><div class="feedback" id="feedback"></div><div class="q-actions" id="qActions"></div>
+      `;
+      const body=$('#questionBody');
+      if(q.type==='choice'){
+        body.innerHTML=`<div class="choice-list">${q.options.map(o=>`<button class="choice" data-choice="${escapeHTML(o)}">${escapeHTML(o)}</button>`).join('')}</div>`;
+        $$('.choice').forEach(b=>b.addEventListener('click',()=>answerPractice(q,b.dataset.choice,b)));
+      } else if(q.type==='input'||q.type==='sentence'){
+        body.innerHTML=`<div class="input-wrap"><input class="answer-input" id="answerInput" autocomplete="off" autocapitalize="sentences" placeholder="ここに入力"><button class="btn primary" id="checkInputBtn">答え合わせ</button></div>${q.hint?`<div class="hint">ヒント：${escapeHTML(q.hint)}</div>`:''}`;
+        $('#checkInputBtn').addEventListener('click',()=>answerPractice(q,$('#answerInput').value));
+        $('#answerInput').addEventListener('keydown',e=>{if(e.key==='Enter')answerPractice(q,$('#answerInput').value)});
+      } else if(q.type==='order'){
+        renderOrderBody(q);
+      }
+    }
+    function renderOrderBody(q){
+      const body=$('#questionBody');
+      const remaining=q.tokens.filter((_,idx)=>!orderPicked.includes(idx));
+      body.innerHTML=`<div class="hint">単語を押して、左から順に並べよう。下の列を押すと戻せるよ。</div><div class="order-bank" id="orderBank">${q.tokens.map((t,i)=>orderPicked.includes(i)?'':`<button class="word-chip" data-order-add="${i}">${escapeHTML(t)}</button>`).join('')}</div><div class="order-answer" id="orderAnswer">${orderPicked.length?orderPicked.map(i=>`<button class="word-chip" data-order-remove="${i}">${escapeHTML(q.tokens[i])}</button>`).join(''):'<span style="color:#a27c89;font-size:.85rem;font-weight:800">ここに並べる</span>'}</div><div class="q-actions"><button class="btn primary" id="checkOrderBtn">答え合わせ</button><button class="btn paper" id="clearOrderBtn">ならべ直す</button></div>`;
+      $$('[data-order-add]').forEach(b=>b.addEventListener('click',()=>{orderPicked.push(Number(b.dataset.orderAdd));renderOrderBody(q)}));
+      $$('[data-order-remove]').forEach(b=>b.addEventListener('click',()=>{orderPicked=orderPicked.filter(i=>i!==Number(b.dataset.orderRemove));renderOrderBody(q)}));
+      $('#checkOrderBtn').addEventListener('click',()=>answerPractice(q,orderPicked.map(i=>q.tokens[i]).join(' ')));
+      $('#clearOrderBtn').addEventListener('click',()=>{orderPicked=[];renderOrderBody(q)});
+    }
+    function answerPractice(q,value,clickedBtn=null){
+      if(practice.answered)return;
+      const accepts=Array.isArray(q.answer)?q.answer:[q.answer];
+      const correct=accepts.some(a=>normalize(a)===normalize(value));
+      practice.answered=true; if(correct)practice.score++;
+      updateStat(q.id,correct);if(!correct)reviewAdd(q.id);else if(state.review.includes(q.id)&&stat(q.id).correct>=2)state.review=state.review.filter(id=>id!==q.id);
+      saveState();
+      const fb=$('#feedback');fb.className=`feedback show ${correct?'good':'bad'}`;fb.innerHTML=`<strong>${correct?'正解。':'今回はここを見直そう。'}</strong>${escapeHTML(q.explanation)}${!correct?`<br><span style="font-size:.85rem">正解：${escapeHTML(accepts[0])}</span>`:''}`;
+      if(q.type==='choice'){
+        $$('.choice').forEach(b=>{b.disabled=true;const v=b.dataset.choice;if(v===accepts[0])b.classList.add('correct');else if(v===value)b.classList.add('wrong');else b.classList.add('muted')});
+      }
+      if(q.type==='input'||q.type==='sentence'){$('#answerInput').disabled=true;$('#checkInputBtn').disabled=true}
+      if(q.type==='order'){$('#questionBody').querySelectorAll('button').forEach(b=>b.disabled=true)}
+      const actions=$('#qActions');if(actions)actions.innerHTML=`<button class="btn primary" id="nextPracticeBtn">${practice.index===practice.questions.length-1?'結果を見る':'次の問題へ'}</button>`;else {const a=document.createElement('div');a.className='q-actions';a.id='qActions';a.innerHTML=`<button class="btn primary" id="nextPracticeBtn">${practice.index===practice.questions.length-1?'結果を見る':'次の問題へ'}</button>`;$('#practiceArea').appendChild(a)}
+      $('#nextPracticeBtn').addEventListener('click',()=>{practice.index++;practice.answered=false;orderPicked=[];renderPractice()});
+    }
+    function renderPracticeResult(){
+      const l=getSelectedLesson();const canUnlock=!state.completed.includes(l.no);const passed=practice.score>=3;
+      $('#practiceArea').innerHTML=`<div class="result-card"><span class="tag ${passed?'mint':'pink'}">${passed?'ここまでできたよ':'もう一回でも大丈夫'}</span><h3>今日の練習はここまで</h3><div class="score-big">${practice.score}<small> / ${practice.questions.length}</small></div><p>${passed?'できたところはちゃんと増えてる。':'間違えた問題は復習リストに入れたよ。'}${canUnlock?' このレッスンを終えたことにして、次を開くこともできる。':''}</p><div class="btn-row" style="justify-content:center;margin-top:16px"><button class="btn paper" id="retrySessionBtn">もう一回やる</button>${canUnlock?`<button class="btn primary" id="completeLessonBtn">このレッスンを完了にする</button>`:`<button class="btn mint" id="backLessonBtn">レッスンに戻る</button>`}</div></div>`;
+      $('#retrySessionBtn').addEventListener('click',()=>startPractice(l.no));
+      $('#completeLessonBtn')?.addEventListener('click',()=>{state.completed.push(l.no);state.completed=[...new Set(state.completed)].sort((a,b)=>a-b);if(l.no<LESSONS.length)state.selectedLesson=l.no+1;saveState();practice=null;showToast(`Lesson ${String(l.no).padStart(2,'0')} を完了にしたよ。`);renderLessons();});
+      $('#backLessonBtn')?.addEventListener('click',()=>{practice=null;renderLessonContent()});
+    }
+
+    function renderWords(){
+      const open=availableLesson();const query=normalize($('#wordSearch')?.value||'');
+      let words=VOCAB.filter(w=>w.lesson<=open);
+      if(wordFilter==='unsure')words=words.filter(w=>state.unsureWords.includes(w.word));
+      if(wordFilter==='lesson')words=words.filter(w=>w.lesson===state.selectedLesson);
+      if(query)words=words.filter(w=>normalize(`${w.word} ${w.meaning} ${w.role} ${w.example}`).includes(query));
+      $('#wordUnlockedTag').textContent=`解禁済み ${VOCAB.filter(w=>w.lesson<=open).length}語`;
+      const grid=$('#wordGrid');
+      if(!words.length){grid.innerHTML='<div class="empty">ここにはまだ単語がいないよ。レッスンを進めると増えていく。</div>';return}
+      grid.innerHTML=words.map(w=>{const unsure=state.unsureWords.includes(w.word);return `<article class="card word-card ${unsure?'unsure':''}"><span class="number">LESSON ${String(w.lesson).padStart(2,'0')}　${escapeHTML(w.role)}</span><h3>${escapeHTML(w.word)} <button class="btn paper small" data-speak="${escapeHTML(w.word)}">🔊</button></h3><div class="meaning">${escapeHTML(w.meaning)}</div><div class="word-meta">変化：${escapeHTML(w.forms)}</div><div class="example">${escapeHTML(w.example)}</div><div class="word-actions"><button class="btn ${unsure?'pink':'paper'} small" data-unsure="${escapeHTML(w.word)}">${unsure?'あやしい印を外す':'まだあやしい'}</button></div></article>`}).join('');
+      $$('[data-unsure]').forEach(b=>b.addEventListener('click',()=>{const word=b.dataset.unsure;state.unsureWords=state.unsureWords.includes(word)?state.unsureWords.filter(x=>x!==word):[...state.unsureWords,word];saveState();renderWords()}));
+    }
+
+    function renderMemo(){
+      $('#memoBox').value=state.memo||'';const list=$('#reviewList');
+      const qs=state.review.map(id=>QUESTIONS.find(q=>q.id===id)).filter(Boolean);
+      if(!qs.length){list.innerHTML='<div class="empty">まだ復習リストは空っぽ。間違えた問題が出たら、ここに残るよ。</div>';return}
+      list.innerHTML=qs.map(q=>`<article class="review-item"><div><strong>Lesson ${String(q.lesson).padStart(2,'0')}｜${escapeHTML(q.prompt)}</strong><p>${escapeHTML(q.explanation)}</p></div><button class="btn paper small" data-review-open="${q.id}">この問題を開く</button></article>`).join('');
+      $$('[data-review-open]').forEach(b=>b.addEventListener('click',()=>openReviewQuestion(b.dataset.reviewOpen)));
+    }
+    function openReviewQuestion(qid){const q=QUESTIONS.find(x=>x.id===qid);if(!q)return;state.selectedLesson=q.lesson;saveState();switchPage('lessons');setTimeout(()=>{practice={lesson:q.lesson,questions:[q],index:0,score:0,answered:false};renderPractice()},0)}
+
+    function eligibleSurvivalQs(){const max=Math.max(getMaxCompleted(),1);return QUESTIONS.filter(q=>q.lesson<=max)}
+    function renderSurvival(){
+      $('#highScore').textContent=state.highScore||0;
+      if(!survival){$('#survivalModes').style.display='grid';$('#survivalGame').style.display='none';return}
+      $('#survivalModes').style.display='none';const g=$('#survivalGame');g.style.display='block';
+      if(survival.over){
+        const record=survival.streak;g.innerHTML=`<div class="card result-card"><span class="tag pink">GAME OVER</span><h3>${survival.mode==='hard'?'本気サドンデス':'ゆる練習'}はここまで</h3><div class="score-big">${record}<small>問連続正解</small></div><p>${record>=state.highScore?'新しい最高記録かも。':'次は少しだけ伸ばしてみよう。'}</p><div class="btn-row" style="justify-content:center"><button class="btn primary" id="survivalRetry">もう一回</button><button class="btn paper" id="survivalQuit">戻る</button></div></div>`;$('#survivalRetry').addEventListener('click',()=>startSurvival(survival.mode));$('#survivalQuit').addEventListener('click',()=>{survival=null;renderSurvival()});return;
+      }
+      const q=survival.question;
+      g.innerHTML=`<div class="survival-stat"><span class="stat-pill">連続 ${survival.streak} 問</span>${survival.mode==='soft'?`<span class="stat-pill hearts">${'♥'.repeat(survival.hearts)}${'♡'.repeat(3-survival.hearts)}</span>`:'<span class="stat-pill">1ミスで終了</span>'}</div><div class="card"><div class="question-meta"><span class="q-type">${qTypeName(q.type)}</span><span class="q-count">解禁済み範囲から出題</span>${q.speak?`<button class="btn paper small" data-speak="${escapeHTML(q.speak)}">🔊</button>`:''}</div><div class="question-prompt">${escapeHTML(q.prompt)}</div>${q.jp?`<p class="question-jp">${escapeHTML(q.jp)}</p>`:''}<div id="survivalBody"></div><div class="feedback" id="survivalFeedback"></div></div>`;
+      renderSurvivalQuestion(q);
+    }
+    function renderSurvivalQuestion(q){const b=$('#survivalBody');if(q.type==='choice'){b.innerHTML=`<div class="choice-list">${q.options.map(o=>`<button class="choice" data-s-choice="${escapeHTML(o)}">${escapeHTML(o)}</button>`).join('')}</div>`;$$('[data-s-choice]').forEach(x=>x.addEventListener('click',()=>answerSurvival(q,x.dataset.sChoice,x)))}else if(q.type==='order'){survival.order=[];renderSurvivalOrder(q)}else{b.innerHTML=`<div class="input-wrap"><input class="answer-input" id="survivalInput" autocomplete="off" placeholder="ここに入力"><button class="btn primary" id="survivalCheck">答え合わせ</button></div>${q.hint?`<div class="hint">ヒント：${escapeHTML(q.hint)}</div>`:''}`;$('#survivalCheck').addEventListener('click',()=>answerSurvival(q,$('#survivalInput').value));$('#survivalInput').addEventListener('keydown',e=>{if(e.key==='Enter')answerSurvival(q,$('#survivalInput').value)})}}
+    function renderSurvivalOrder(q){const b=$('#survivalBody');b.innerHTML=`<div class="order-bank">${q.tokens.map((t,i)=>survival.order.includes(i)?'':`<button class="word-chip" data-s-add="${i}">${escapeHTML(t)}</button>`).join('')}</div><div class="order-answer">${survival.order.length?survival.order.map(i=>`<button class="word-chip" data-s-remove="${i}">${escapeHTML(q.tokens[i])}</button>`).join(''):'<span style="color:#a27c89;font-size:.85rem;font-weight:800">ここに並べる</span>'}</div><div class="q-actions"><button class="btn primary" id="survivalOrderCheck">答え合わせ</button></div>`;$$('[data-s-add]').forEach(x=>x.addEventListener('click',()=>{survival.order.push(Number(x.dataset.sAdd));renderSurvivalOrder(q)}));$$('[data-s-remove]').forEach(x=>x.addEventListener('click',()=>{survival.order=survival.order.filter(i=>i!==Number(x.dataset.sRemove));renderSurvivalOrder(q)}));$('#survivalOrderCheck').addEventListener('click',()=>answerSurvival(q,survival.order.map(i=>q.tokens[i]).join(' ')))}
+    function startSurvival(mode){const pool=eligibleSurvivalQs();if(!pool.length){showToast('先にレッスンの練習をはじめよう。');return}survival={mode,hearts:3,streak:0,history:[],over:false};nextSurvivalQuestion();renderSurvival()}
+    function nextSurvivalQuestion(){const pool=eligibleSurvivalQs().filter(q=>!survival.history.slice(-12).includes(q.id));const p=pool.length?pool:eligibleSurvivalQs();survival.question=p[Math.floor(Math.random()*p.length)];survival.history.push(survival.question.id)}
+    function answerSurvival(q,value,btn=null){if(survival.answered)return;survival.answered=true;const accepts=Array.isArray(q.answer)?q.answer:[q.answer];const correct=accepts.some(a=>normalize(a)===normalize(value));const fb=$('#survivalFeedback');fb.className=`feedback show ${correct?'good':'bad'}`;fb.innerHTML=`<strong>${correct?'正解！':'おしい。'}</strong>${escapeHTML(q.explanation)}${!correct?`<br><span style="font-size:.85rem">正解：${escapeHTML(accepts[0])}</span>`:''}`;if(correct){survival.streak++;state.highScore=Math.max(state.highScore||0,survival.streak);saveState()}else{if(survival.mode==='hard'){survival.over=true}else{survival.hearts--;if(survival.hearts<=0)survival.over=true}}
+      if(q.type==='choice'){$$('[data-s-choice]').forEach(x=>{x.disabled=true;if(x.dataset.sChoice===accepts[0])x.classList.add('correct');else if(x.dataset.sChoice===value)x.classList.add('wrong');else x.classList.add('muted')})}else{$('#survivalBody').querySelectorAll('input,button').forEach(x=>x.disabled=true)}
+      const actions=document.createElement('div');actions.className='q-actions';actions.innerHTML=`<button class="btn primary" id="survivalNext">${survival.over?'結果を見る':'次の問題へ'}</button>`;$('#survivalFeedback').after(actions);$('#survivalNext').addEventListener('click',()=>{survival.answered=false;if(!survival.over)nextSurvivalQuestion();renderSurvival()})
+    }
+
+    // event wiring
+    document.addEventListener('click',e=>{
+      const p=e.target.closest('[data-page]');if(p){switchPage(p.dataset.page);return}
+      const s=e.target.closest('[data-speak]');if(s){speak(s.dataset.speak);return}
+    });
+    $('#homeStartBtn').addEventListener('click',()=>{switchPage('lessons');setTimeout(()=>startPractice(state.selectedLesson),0)});
+    $('#homeLessonGo').addEventListener('click',()=>{switchPage('lessons');setTimeout(()=>startPractice(state.selectedLesson),0)});
+    $('#openReviewBtn').addEventListener('click',()=>switchPage('memo'));
+    $('#wordSearch').addEventListener('input',renderWords);
+    $$('[data-word-filter]').forEach(b=>b.addEventListener('click',()=>{wordFilter=b.dataset.wordFilter;$$('[data-word-filter]').forEach(x=>x.classList.toggle('active',x===b));renderWords()}));
+    $$('[data-survival-mode]').forEach(b=>b.addEventListener('click',()=>startSurvival(b.dataset.survivalMode)));
+    $('#saveMemoBtn').addEventListener('click',()=>{state.memo=$('#memoBox').value;saveState();$('#memoState').textContent='保存したよ。';setTimeout(()=>$('#memoState').textContent='',1700)});
+    $('#clearMemoBtn').addEventListener('click',()=>{if(confirm('メモを消す？')){state.memo='';saveState();$('#memoBox').value='';$('#memoState').textContent='メモを消したよ。'}});
+    $('#clearReviewBtn').addEventListener('click',()=>{if(confirm('復習リストを空にする？')){state.review=[];saveState();renderMemo();renderHome();}});
+    $('#resetProgressBtn').addEventListener('click',()=>{if(confirm('レッスンの進み具合を最初からに戻す？')){state.completed=[];state.selectedLesson=1;saveState();practice=null;showToast('進み具合をリセットしたよ。');renderMemo();renderHome();}});
+    $('#resetAllBtn').addEventListener('click',()=>{if(confirm('本当にすべての記録を消す？ この操作は戻せないよ。')){state=defaultState();saveState();practice=null;survival=null;showToast('すべての記録を消したよ。');switchPage('home')}});
+
+    renderHome();
+  })();
+  </script>
+</body>
+</html>
